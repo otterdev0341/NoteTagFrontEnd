@@ -12,7 +12,8 @@ const PrimaryButton = styled.button({
     padding: "5px 10px",
     borderRadius: "5px",
     backgroundColor: "#6495ED",
-    color: "#F9F9FF"
+    color: "#F9F9FF",
+    cursor: "pointer",
 });
 
 const SuccessButton = styled.button({

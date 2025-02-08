@@ -1,0 +1,11 @@
+.gender-option {
+    /* background-color: red; */
+    height: 25px;
+    border-radius: 5px;
+}
+
+.error-message{
+    color: red;
+    font-size: small;    
+    background-color: rebeccapurple;
+}
