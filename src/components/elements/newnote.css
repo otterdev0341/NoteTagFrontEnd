@@ -1,0 +1,33 @@
+.new-note {
+    background-color: aquamarine;
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    
+    padding: 10px 0;
+    
+}
+
+.new-note-title{
+    box-sizing: border-box;
+    
+}
+
+input {
+    height: 32px;
+    border-radius: 8px;
+    width: 40vh;
+}
+input::placeholder {
+    color: black;
+    opacity: 0.5;
+    font-size: 14px;
+    padding-left: 10px;
+}
+input:active{
+    cursor: none;
+    caret-color: transparent;
+    user-select: none;
+}

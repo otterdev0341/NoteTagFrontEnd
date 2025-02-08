@@ -1,0 +1,37 @@
+.note {
+    background-color: aqua;
+    border-radius: 10px;
+    padding: 10px 10px;
+    
+    min-height: 165px;
+    max-height: 175px;
+
+    overflow: hidden;
+    
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* Works in WebKit browsers */
+    -webkit-box-orient: vertical;
+    
+    /* Fallback for unsupported browsers */
+    display: flex;
+    flex-direction: column;
+}
+
+
+.note-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.note-action {
+    display: flex;
+    gap: 10px;
+}
+
+.edit-btn {
+    color: #007bff;
+    position: relative;
+}
+
+

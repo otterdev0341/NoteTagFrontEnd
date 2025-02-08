@@ -1,0 +1,46 @@
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f1f1f1;
+    padding: 10px 20px;
+    
+    ul {
+        display: flex;
+        text-transform: uppercase;
+        
+        
+        li {
+            list-style: none;
+            margin: 0 10px;
+            display: block;
+            a {
+                text-decoration: none;
+                
+                
+            }
+            a:visited {
+                color: black;
+            }
+
+        }
+    }
+}
+
+#menu{
+    display: flex;
+    align-items: center;
+}
+
+.user {
+    display: flex;
+    gap: 10px;
+    text-transform: uppercase;
+}
+
+.logo {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
