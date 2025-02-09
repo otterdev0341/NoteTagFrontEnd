@@ -21,11 +21,14 @@
 
 #register-result{
     margin-top: 20px;
-    color: orange;
-    display: show;
-    /* display: none; */
+    
+    
+    display: none;
 }
 
 .green{
     color: green;
+}
+.red{
+    color: red;
 }

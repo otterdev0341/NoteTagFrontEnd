@@ -1,9 +1,9 @@
 import axios from "axios";
-import { IRegisterUserData } from "../domain/Register";
+import { ILoginUserData, IRegisterUserData } from "../domain/AuthDto";
 
 
 
-export default async function api_register(registerData: IRegisterUserData): Promise<String> {
+export default async function api_register(registerData: IRegisterUserData): Promise<string> {
 
     const BASE_URL = import.meta.env.VITE_API_BASE_URL;
     const REGISTER_URL = import.meta.env.VITE_FEATURE_REGISTER;
@@ -12,7 +12,7 @@ export default async function api_register(registerData: IRegisterUserData): Pro
         
         if (!BASE_URL || !REGISTER_URL) {
             throw new Error("API base URL or register URL is not defined in the environment variables.");
-            return "Error: API base URL or register URL is not defined in the environment variables.";
+            
         }
         console.log(registerData);
         console.log(`${BASE_URL}${REGISTER_URL}`);
@@ -23,14 +23,39 @@ export default async function api_register(registerData: IRegisterUserData): Pro
         });
         if (response.status === 201) {
             return "user registered successfully";
-        } else {
+        } else if(response.status === 400) {
             
-            const responseData = response.data;
-            throw new Error(responseData.message);
+            return "Registration failed";
         }
     } catch (error){
-        console.log("Error registering user:", error);
-        throw error;
-        
+        console.error(error);
+        return "";
     }
+    return "Unexpected error";
+}
+
+
+export  async function api_login(loginData: ILoginUserData): Promise<string> {
+    const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+    const LOGIN_URL = import.meta.env.VITE_FEATURE_LOGIN;
+
+    try{
+        if (!BASE_URL || !LOGIN_URL) {
+            throw new Error("API base URL or login URL is not defined in the environment variables.");
+        }
+        const response = await axios.post(`${BASE_URL}${LOGIN_URL}`, loginData,{
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        if (response.status === 200) {
+            return response.data;
+        } else if(response.status === 400) {
+            return "Login failed";
+        }
+    } catch (error){
+        console.error(error);
+        return "";
+    }
+    return "Unexpected error";
 }

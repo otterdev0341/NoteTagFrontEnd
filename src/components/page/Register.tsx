@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./register.css";
 import { useNavigate } from "react-router-dom";
-import { IRegisterUserData } from "../../domain/Register";
+import { IRegisterUserData } from "../../domain/AuthDto";
 import { isFirsttNameLastName, isGenderValid, isValidEmail, isValidPassword, isValidUsername } from "../../utility/validateData";
 
 import api_register from "../../api/auth";
@@ -13,8 +13,9 @@ export default function Register() {
   const initialUserData: IRegisterUserData = {
     username: "",
     password: "",
-    firstname: "",
-    lastname: "",
+    first_name: "",
+    middle_name: "",
+    last_name: "",
     gender: "",
     email: "",
   };
@@ -40,7 +41,7 @@ export default function Register() {
   }
 
   function validateRegisterData(checkData: IRegisterUserData): boolean {
-    const { username, password, firstname, lastname, gender, email } = checkData;
+    const { username, password, first_name, last_name, gender, email } = checkData;
     const newErrors: IRegisterUserData = { ...initialUserData };
     let isvalid = true;
     if (!isValidUsername(username)){
@@ -55,12 +56,12 @@ export default function Register() {
       newErrors.email = "Invalid email";
       isvalid = false;
     }
-    if (!isFirsttNameLastName(firstname)) {
-      newErrors.firstname = "Firstname must be 2-15 char long, only letters.";
+    if (!isFirsttNameLastName(first_name)) {
+      newErrors.first_name = "Firstname must be 2-15 char long, only letters.";
       isvalid = false;
     }
-    if (!isFirsttNameLastName(lastname)) {
-      newErrors.lastname = "Lastname must be 2-15 char long, only letters.";
+    if (!isFirsttNameLastName(last_name)) {
+      newErrors.last_name = "Lastname must be 2-15 char long, only letters.";
       isvalid = false;
     }
     if (!isGenderValid(gender, genderList)) {
@@ -73,7 +74,7 @@ export default function Register() {
 
   async function handleRegister(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log(registerData);
+    
     const validateResult = validateRegisterData(registerData);
     if (!validateResult) {
       return
@@ -85,12 +86,17 @@ export default function Register() {
           registerResult.classList.add("green");
           registerResult.style.display = "block";
           registerResult.innerHTML = result as string;
-        } else {
-          registerResult.classList.remove("green");
-          registerResult.innerHTML = `Registration failed: ${result}`; ;
-          
+          setTimeout(() => {
+            navigate("/login");
+          }, 3000);
         }
+        registerResult.classList.remove("green");
+        registerResult.classList.add("red");
+        registerResult.style.display = "block";
+        registerResult.innerHTML = `Registration failed, is email alrady exist, or dupicate username`; 
       }
+      
+      
     }
     // cal register api
     
@@ -157,31 +163,31 @@ export default function Register() {
 
             {/** First Name Field */}
             <div className="form-group">
-              {touched.firstname && errors.firstname && <div className="error-message">{errors.firstname}</div>}
+              {touched.firstname && errors.first_name && <div className="error-message">{errors.first_name}</div>}
               <label htmlFor="firstname">First Name</label>
               <input
                 type="text"
-                name="firstname"
+                name="first_name"
                 id="firstname"
                 autoComplete="off"
                 required
                 onChange={onRegisterDataChange}
-                value={registerData.firstname}
+                value={registerData.first_name}
               />
             </div>
 
             {/** Last Name Field */}
             <div className="form-group">
-              {touched.lastname && errors.lastname && <div className="error-message">{errors.lastname}</div>}
+              {touched.lastname && errors.last_name && <div className="error-message">{errors.last_name}</div>}
               <label htmlFor="lastname">Last Name</label>
               <input
                 type="text"
-                name="lastname"
+                name="last_name"
                 id="lastname"
                 autoComplete="off"
                 required
                 onChange={onRegisterDataChange}
-                value={registerData.lastname}
+                value={registerData.last_name}
               />
             </div>
 

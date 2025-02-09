@@ -2,7 +2,7 @@ export function isValidUsername(username: string): boolean {
   // must be 8-15 characters long
   // can contain letter, numbers, underscores, and dashes
   // must start with a letter
-  const usernameRegex = /^[a-zA-Z][a-zA-Z0-9_-]{7,14}$/;
+  const usernameRegex = /^[a-zA-Z][a-zA-Z0-9_-]{8,14}$/;
   
   return usernameRegex.test(username);
 }
