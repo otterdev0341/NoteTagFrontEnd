@@ -17,3 +17,9 @@ export interface IAuthContext {
   token: string;
   
 }
+
+export interface IAuthContext {
+  token: string;
+  setToken: (token: string) => void;
+  setEmpty: () => void;
+}

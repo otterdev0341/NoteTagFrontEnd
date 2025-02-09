@@ -10,7 +10,7 @@ import { AuthContext } from "../../context/AuthContext";
 
 
 export default function Login() {
-    const auth_context = useContext(AuthContext);
+    const {setToken} = useContext(AuthContext);
     const initialLoginData : ILoginUserData = {
         email: "",
         password: "",
@@ -49,7 +49,7 @@ export default function Login() {
         return isvalid;
     }
 
-    async function onLoginSubmit(event: React.FormEvent<HTMLFormElement>) {
+    async function onLoginSubmit(event: React.FormEvent<HTMLFormElement> | React.KeyboardEvent<HTMLInputElement>) {
         event.preventDefault();
         if (validateLoginData(loginData)) {
             // already got token from api_login
@@ -58,6 +58,9 @@ export default function Login() {
             // if already exist in cookies, it will be updated
             // 1 / 48 of a day is 30 minutes
             Cookies.set("token", token, { expires: 1 / 48 });
+            setToken(token);
+            console.log("token save succesfully");
+            navigate("/");
         }
     }
 
@@ -73,12 +76,20 @@ export default function Login() {
                         <div className="form-group">
                             {touched.email && errors.email && <div className="error-message">{errors.email}</div>}
                             <label htmlFor="email">Email</label>
-                            <input type="text" name="email" id="email" autoComplete="off" value={loginData.email} onChange={onLoginDataChange} />
+                            <input type="text" name="email" id="email" autoComplete="off" value={loginData.email} onChange={onLoginDataChange} onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        onLoginSubmit(e);
+                                    }
+                                }} />
                         </div>
                         <div className="form-group">
                             {touched.password && errors.password && <div className="error-message">{errors.password}</div>}
                             <label htmlFor="password">Password</label>
-                            <input type="password" name="password" id="password" value={loginData.password} onChange={onLoginDataChange} />
+                            <input type="password" name="password" id="password" value={loginData.password} onChange={onLoginDataChange} onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        onLoginSubmit(e);
+                                    }
+                                }} />
                         </div>
                         <div className="button-section">
                             <button id="submit" type="submit">Login</button>

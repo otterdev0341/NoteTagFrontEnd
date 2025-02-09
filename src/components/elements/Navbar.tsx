@@ -3,12 +3,27 @@ import CustomButton from './Button';
 import { ButtonType } from './Button';
 
 import './navbar.css';
-
+import { use, useContext, useEffect } from 'react';
+import { AuthContext } from '../../context/AuthContext';
+import Cookies from 'js-cookie';
+import { log } from 'console';
 
 
 export default function Navbar(){
 
     const navigate = useNavigate();
+    const {token, setEmpty} = useContext(AuthContext);
+
+
+    function logout(){
+        Cookies.remove('token');
+        // Cookies.set('token', '');
+        setEmpty();
+        setTimeout(() => {
+            navigate('/login');
+        }, 1000);
+        
+    }
 
     return(
         <nav className="navbar">
@@ -32,8 +47,13 @@ export default function Navbar(){
                 
                 <div className="user">
                     <CustomButton button_type={ButtonType.Primary} text="Register" onClick={() => navigate('/register')} />
-                    <CustomButton button_type={ButtonType.Primary} text="Login" onClick={() => navigate('/login')} />
-                    <CustomButton button_type={ButtonType.Primary} text="Logout"  />
+                    {
+                        token && token.length > 0 ?
+                        <CustomButton button_type={ButtonType.Primary} text="Logout" onClick={logout} />
+                        :
+                        <CustomButton button_type={ButtonType.Primary} text="Login" onClick={() => navigate('/login')} />
+                    }
+                    
                 </div>
             </div>
             
