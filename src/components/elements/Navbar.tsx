@@ -46,14 +46,14 @@ export default function Navbar(){
                 </div>
                 
                 <div className="user">
-                    <CustomButton button_type={ButtonType.Primary} text="Register" onClick={() => navigate('/register')} />
-                    {
-                        token && token.length > 0 ?
+                    {token && token.length > 0 ? (
                         <CustomButton button_type={ButtonType.Primary} text="Logout" onClick={logout} />
-                        :
-                        <CustomButton button_type={ButtonType.Primary} text="Login" onClick={() => navigate('/login')} />
-                    }
-                    
+                    ) : (
+                        <>
+                            <CustomButton button_type={ButtonType.Primary} text="Register" onClick={() => navigate('/register')} />
+                            <CustomButton button_type={ButtonType.Primary} text="Login" onClick={() => navigate('/login')} />
+                        </>
+                    )}
                 </div>
             </div>
             
