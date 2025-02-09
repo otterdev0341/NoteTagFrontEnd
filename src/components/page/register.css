@@ -6,6 +6,26 @@
 
 .error-message{
     color: red;
-    font-size: small;    
-    background-color: rebeccapurple;
+    font-size: 12px;    
+    /* background-color: rebeccapurple; */
+    text-transform: capitalize;
+    
+}
+
+.form-group{
+    display: flex;
+    flex-direction: column;
+    width: 40vw;
+    
+}
+
+#register-result{
+    margin-top: 20px;
+    color: orange;
+    display: show;
+    /* display: none; */
+}
+
+.green{
+    color: green;
 }
