@@ -64,6 +64,7 @@ input:active{
 .note-area {
     background-color: green;
     flex:6.6;
+    /* width: 100vw; */
 }
 .tag-area {
     flex: 3;
@@ -90,3 +91,19 @@ input:active{
 .display-frame {
     flex: 3.3;
 }
+
+#note-title {
+    display: inline-block;
+    width: 150%;
+    border: none;
+    border-radius: 0px;
+    border: none;
+}
+
+#note-content{
+    display: inline-block;
+    width: 150%;
+    border-radius: 0px;
+    border: none;
+}
+

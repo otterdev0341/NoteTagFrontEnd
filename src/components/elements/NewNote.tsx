@@ -24,7 +24,18 @@ export default function NewNote() {
      useEffect(() => {
          console.log(newNote);
      }, [newNote]);
-
+    function setNoteContentnt(content: string) {
+        setNewNote({
+            ...newNote,
+            content: content
+        });
+    }
+    function setNoteTitle(title: string) {
+        setNewNote({
+            ...newNote,
+            title: title
+        });
+    }
     // modal handle area
     const [isOpen, setIsOpen] = useState(false);
     function onClose() {
@@ -72,7 +83,7 @@ export default function NewNote() {
         <div className="new-note">
             <form action="" onFocus={onOpen}>
                 <div className="new-note-title">
-                    <input type="text" placeholder="add note" autoComplete="off" />
+                    <input type="text" placeholder="add note" autoComplete="off"  />
                 </div>
                
             </form>
@@ -103,8 +114,14 @@ export default function NewNote() {
                     </div>
                 </div>
                 <div className="note-area">
-                    <form action="">
-                        start craet note form
+                    <form action="" id="new-note-form">
+                        <div className="form-group">
+                            
+                            <input id="note-title" type="text" placeholder="Note Title" autoComplete="off" onInput={(e) => setNoteTitle(e.currentTarget.value)} />
+                        </div>
+                        <div className="form-group">
+                            <textarea name="" id="note-content" cols={30} rows={25} placeholder="Note Content" maxLength={255} onInput={(e) => setNoteContentnt(e.currentTarget.value)}></textarea>
+                        </div>
                     </form>
                 </div>
                 <div className="tag-area">
