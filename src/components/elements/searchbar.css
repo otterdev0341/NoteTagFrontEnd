@@ -1,0 +1,8 @@
+.search-container{
+    /* background-color: red; */
+    display: flex;
+    justify-content: center;
+    padding: 15px 0px;
+    margin-top: 10px;
+    
+}

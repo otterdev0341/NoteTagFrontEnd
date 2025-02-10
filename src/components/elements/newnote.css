@@ -33,3 +33,36 @@ input:active{
     caret-color: transparent;
     user-select: none;
 }
+
+
+.new-note-container {
+    width: 60vw;
+    height: 70vh;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.pin-color-area {
+    background-color: thistle;
+    flex: 0.4;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 10px;
+}
+
+.display-color-palatte {
+    display: flex;
+    gap: 5px;
+}
+
+.note-area {
+    background-color: green;
+    flex:6.6;
+}
+.tag-area {
+    flex: 3;
+    background-color: pink;
+}
