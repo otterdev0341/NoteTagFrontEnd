@@ -4,12 +4,12 @@
     padding: 10px 10px;
     
     min-height: 165px;
-    max-height: 175px;
+    max-height: auto;
 
     overflow: hidden;
     
     display: -webkit-box;
-    -webkit-line-clamp: 4; /* Works in WebKit browsers */
+    -webkit-line-clamp: 5; /* Works in WebKit browsers */
     -webkit-box-orient: vertical;
     
     /* Fallback for unsupported browsers */
@@ -20,9 +20,11 @@
 
 .note-header{
     display: flex;
+    
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+    font-size: 12px;
 }
 .note-action {
     display: flex;
@@ -34,4 +36,34 @@
     position: relative;
 }
 
+.note-footer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    
+    
+    column-gap: 5px;
+    /* background-color: red; */
+    height: 100%;
+    
+    
+}
+
+#tag-item {
+    background-color: lightyellow;
+    color: black;
+    border: 1px solid lightcoral;
+    border-radius: 7px;
+    padding: 2px 2px;
+    display: inline-block;
+    font-size: smaller;
+    align-self: flex-end;
+}
+
+#tag-item:hover {
+    background-color: lightcoral;
+    color: white;
+    cursor: pointer;
+}
 

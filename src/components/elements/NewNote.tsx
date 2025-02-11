@@ -201,7 +201,7 @@ export default function NewNote() {
                         <div className="apply-new-tag">
                             <a id="new-tag" onClick={() => createNewTag(filterTagKeyword)}>
                                 <FaCirclePlus id="new-tag-icon" />
-                                <span>new tag</span>
+                                <span>create</span>
                             </a>
                         </div>
                         

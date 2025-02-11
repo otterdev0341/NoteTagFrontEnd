@@ -32,8 +32,10 @@ export default function Note( { noteData }: NoteProps) {
                 <p className='content-detail'>{content}</p>
             </div>
             <div className='note-footer'>
-                <p className='note-tag'>{tag}</p>
-                
+                {
+                    tag.map((tag, index) => (
+                        <span id='tag-item' key={index} className='tag'>{`#${tag}`}</span>
+                ))}
             </div>
             
 

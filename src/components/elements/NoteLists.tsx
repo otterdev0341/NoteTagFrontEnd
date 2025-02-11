@@ -3,12 +3,16 @@ import "./notelist.css";
 import { MdOutlinePushPin } from "react-icons/md";
 import { FaRegStickyNote } from "react-icons/fa";
 import { getNoteListEntry } from "../../utility/getListNoteEntry";
-import { INoteListDto } from "../../domain/NoteDto";
+import {  IResNoteEntryDto } from "../../domain/NoteDto";
+import { useState } from "react";
 export default function NoteLists() {
 
-    // fetch all note
+    // this is update note if somthing is changed
+    const [updateNote, setUpdateNote] = useState<IResNoteEntryDto>();
     
+    // fetch all note
     const {totalNote, noteLists} = getNoteListEntry();
+
     return (
         <div className="note-display">
             <div className="note-pinned">
