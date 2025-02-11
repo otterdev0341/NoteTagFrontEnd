@@ -1,11 +1,13 @@
 import { CSSProperties } from 'react';
 import ReactDOM from 'react-dom';
 import { IoMdClose } from 'react-icons/io';
+import { IResNoteEntryDto } from '../../../domain/NoteDto';
 interface ModalProps {
     children: React.ReactNode;
     isOpen: boolean;
     onClose?: () => void;
     setBackgroundColor?: string;
+    noteData: IResNoteEntryDto;
 }
 
 let MODAL_STYLES: CSSProperties = {
@@ -37,7 +39,7 @@ const CLOSE_BTN_STYLES: CSSProperties = {
     fontSize: '25px',
     color: 'red'
 }
-export default function Modal({ children, isOpen, onClose, setBackgroundColor}: ModalProps) {
+export default function EditNoteModal({ noteData, isOpen, onClose, setBackgroundColor}: ModalProps) {
     
     const modalStyles = {
         ...MODAL_STYLES,
@@ -52,7 +54,6 @@ export default function Modal({ children, isOpen, onClose, setBackgroundColor}: 
         <>
             <div style={OVERLAY_STYLES} className='modal-overlay' onClick={onClose}></div>
             <div style={modalStyles} >
-                {children}
                 <IoMdClose style={CLOSE_BTN_STYLES} onClick={onClose} />
             </div>
             

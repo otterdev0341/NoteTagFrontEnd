@@ -7,7 +7,8 @@ export function getColorPalatte() {
         "#9FE2BF",
         "#40E0D0",
         "#6495ED",
-        "#CCCCFF"
+        "#CCCCFF",
+        
     ];
     return color_palatte;
 }

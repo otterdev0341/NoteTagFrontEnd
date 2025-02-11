@@ -1,0 +1,80 @@
+.tags-container{
+    width: 100vw;
+    
+    background-color: brown;
+    display: flex;
+    
+
+}
+
+.display-user-tags {
+    background-color: pink;
+    flex: 1.5;
+    width: 15vw;
+    
+    min-width: 10vw;
+    
+}
+
+.display-note-tags {
+    background-color: teal;
+    flex: 8.5;
+    width: 85vw;
+}
+
+.tag-selected-area {
+    display: flex;
+    background-color: lightcoral;
+    min-height: 40px;
+    height: auto;
+    flex-wrap: wrap;
+    row-gap: 10px;
+    font-weight: bold;
+    color: white;
+    padding: 5px 10px;
+}
+
+.each-tag-selected{
+    background-color: darkcyan;
+    font-weight: bold;
+    font-size: small;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 20px;
+    padding-left: 10px;
+    margin-right: 5px;
+    border-radius: 8px;
+    display: inline-block;
+    border: 1px solid black;
+    color: white;
+    position: relative;
+}
+
+.remove-button {
+    position: absolute;
+    top: 5px;
+    right: 3px;
+    
+    font-size: 16px;
+    text-align: center;
+    color: orangered;
+}
+
+.each-tag-selected:hover {
+    cursor: pointer;
+    border: 1px solid white;
+}
+
+.each-tag{
+    list-style: none;
+}
+
+.tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    row-gap: 5px;
+    column-gap: 5px;
+    justify-content: center;
+}

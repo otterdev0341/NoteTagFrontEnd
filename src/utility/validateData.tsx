@@ -35,3 +35,7 @@ export function isValidEmail(email: string): boolean {
 export function isGenderValid(gender: string, genderList: string[]): boolean {
   return genderList.includes(gender);
 }
+
+export function isAlphanumeric(context: string): boolean {
+  return /^[a-z0-9]+$/i.test(context);  // case-insensitive check for letters and numbers
+}

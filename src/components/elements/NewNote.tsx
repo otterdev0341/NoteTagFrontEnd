@@ -8,9 +8,15 @@ import { RiPushpinFill, RiUnpinFill } from "react-icons/ri";
 import { noteStatus } from "../../utility/noteStatus";
 
 import { Tooltip } from "react-tooltip";
+import { getUserTags } from "../../utility/getUserTags";
+import EachTag from "./EachTag";
+import { FaCirclePlus } from "react-icons/fa6";
+import { isAlphanumeric } from "../../utility/validateData";
+import EditNoteModal from "./modals/EditNoteModal";
 
 
 export default function NewNote() {
+    
 
     // new note to persist to api area
     const [newNote, setNewNote] = useState<ICreateNoteDto>({
@@ -39,7 +45,8 @@ export default function NewNote() {
     // modal handle area
     const [isOpen, setIsOpen] = useState(false);
     function onClose() {
-        setIsOpen(true);
+        setIsOpen(false);
+        // call new note api here
     }
     function onOpen() {
         setIsOpen(true);
@@ -75,9 +82,60 @@ export default function NewNote() {
         }
     }
     // handle user tag to check is it already exist or not
-
+    const allTags = getUserTags();
     const [appendTag, setAppendTag] = useState<string[]>([]);
+    
+    function appendTagHandler(tag: string) {
+        if(appendTag.includes(tag)){
+            return;
+        }
+        setAppendTag([...appendTag, tag]);
+    }
+    function removeTagHandler(tag: string) {
+        setAppendTag(appendTag.filter(t => t !== tag));
+    }
 
+    const [filterTag, setFilterTag] = useState<string[]>([]);
+    const [filterTagKeyword, setFilterTagKeyword] = useState<string>("");
+    
+    // new-tag funtion
+    // rule filterTag must be empty and must not contain in allTags
+    // new length > 1
+    function createNewTag(tag: string){
+        if(filterTag.length > 0){
+            return;
+        }
+        if(allTags.includes(tag)){
+            return;
+        }
+        if(tag.length < 1){
+            return;
+        }
+        if(!isAlphanumeric(tag)){
+            setFilterTagKeyword("");
+            return;
+            
+        }
+        appendTagHandler(tag);
+        setFilterTagKeyword("");
+        
+    }
+    useEffect(() => {
+        setNewNote({
+            ...newNote,
+            noteTags: appendTag
+        });
+    }, [appendTag]);
+
+    useEffect(() => {
+        const filteredTag = allTags.filter(tag => tag.includes(filterTagKeyword));
+        setFilterTag(filteredTag);
+        
+        
+    }, [filterTagKeyword]);
+
+
+    // >>>> DISPLAY UI <<<<
     return (
         <>
         <div className="new-note">
@@ -116,19 +174,59 @@ export default function NewNote() {
                 <div className="note-area">
                     <form action="" id="new-note-form">
                         <div className="form-group">
-                            
-                            <input id="note-title" type="text" placeholder="Note Title" autoComplete="off" onInput={(e) => setNoteTitle(e.currentTarget.value)} />
+                            <label htmlFor="note-title">Title</label>
+                            <input id="note-title" type="text" autoComplete="off" onInput={(e) => setNoteTitle(e.currentTarget.value)} />
                         </div>
                         <div className="form-group">
-                            <textarea name="" id="note-content" cols={30} rows={25} placeholder="Note Content" maxLength={255} onInput={(e) => setNoteContentnt(e.currentTarget.value)}></textarea>
+                            <label htmlFor="note-content">Content</label>
+                            <textarea name="" id="note-content" cols={30} rows={25} maxLength={255} onInput={(e) => setNoteContentnt(e.currentTarget.value)}></textarea>
                         </div>
                     </form>
                 </div>
                 <div className="tag-area">
-                    this is handle tag data
+                    <div className="appended-tag">
+                        {
+                            appendTag.map((tag, index) => (
+                                <a data-tooltip-id="my-tooltip" data-tooltip-content="click to remove tag">
+                                    <EachTag key={index} tag={tag} onClick={() => removeTagHandler(tag)} />
+                                </a>
+                            ))
+                        }
+                    </div>
+                    {/* <Tooltip id="my-tooltip" /> */}
+                    <div className="new-note-tag-container">
+                        <div className="filter-tag">
+                            <input value={filterTagKeyword} type="text" id="filter-tag" placeholder="search tag" onInput={(e) => setFilterTagKeyword(e.currentTarget.value)} />
+                        </div>
+                        <div className="apply-new-tag">
+                            <a id="new-tag" onClick={() => createNewTag(filterTagKeyword)}>
+                                <FaCirclePlus id="new-tag-icon" />
+                                <span>new tag</span>
+                            </a>
+                        </div>
+                        
+                    </div>
+                    <div className="display-user-tag">
+                        {
+                            filterTag.length > 0 || filterTagKeyword.length > 0 ? (
+                                filterTag.map((tag, index) => (
+                                    <a data-tooltip-id="my-tooltip" data-tooltip-content="click to append tag">
+                                        <EachTag key={index} tag={tag} onClick={() => appendTagHandler(tag)} />
+                                    </a>
+                                ))
+                            ) : (
+                                allTags.map((tag, index) => (
+                                    <a data-tooltip-id="my-tooltip" data-tooltip-content="click to append tag">
+                                        <EachTag key={index} tag={tag} onClick={() => appendTagHandler(tag)} />
+                                    </a>
+                                ))
+                            )
+                        }
+                    </div>
                 </div>
             </div>
         </Modal>
+        {/* <EditNoteModal /> */}
         </>
   )
 }

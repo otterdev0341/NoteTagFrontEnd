@@ -1,15 +1,24 @@
 import './note.css';
 import { CiEdit } from 'react-icons/ci';
 import { MdOutlineDeleteOutline } from "react-icons/md";
+import { IResNoteEntryDto } from '../../domain/NoteDto';
 
+interface NoteProps{
+    
+    noteData: IResNoteEntryDto;
+}
 
-export default function Note(){
+export default function Note( { noteData }: NoteProps) {
+    const { id, title, content, colorCode, status, tag, createdAt } = noteData;
+
+    
+    
     return (
         
         
-        <div className="note">
+        <div className="note" id={id} style={{ backgroundColor: colorCode }}>
             <div className='note-header'>
-                <h2>Note</h2>
+                <h2>{title}</h2>
                 <div className="note-action">
                     <a href="#" className='edit-btn' data-tooltip="Edit Note">
                         <CiEdit />
@@ -20,7 +29,11 @@ export default function Note(){
                 </div>
             </div>
             <div className='note-conter'>
-                <p className='content-detail'>This is a note Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid, delectus. Tenetur architecto itaque nulla incidunt totam id recusandae corrupti dolorem? Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque, unde. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique repellendus praesentium magnam voluptate quasi amet est error at. Iste, id!</p>
+                <p className='content-detail'>{content}</p>
+            </div>
+            <div className='note-footer'>
+                <p className='note-tag'>{tag}</p>
+                
             </div>
             
 

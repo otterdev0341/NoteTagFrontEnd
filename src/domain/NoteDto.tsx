@@ -7,9 +7,9 @@ export interface Note{
     tags: String[];
     createdAt: Date;
 }
-export interface NoteList{
+export interface INoteListDto{
     totalNote: number;
-    noteLists: Note[];
+    noteLists: IResNoteEntryDto[];
 }
 
 export interface ICreateNoteDto{
