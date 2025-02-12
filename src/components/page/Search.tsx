@@ -94,18 +94,11 @@ export default function Search() {
                                 // Check for matching content
                                 const contentMatch = note.content.toLowerCase().includes(queryCiteria.title?.toLowerCase() || "");
                                 
-                                // Check for matching tags
-                                
                                 // do it if tag != null
-                                const tagsMatch = queryCiteria.noteTags && queryCiteria.noteTags.length > 0 ? queryCiteria.noteTags.every(tag => note.tag.includes(tag)) : true;
-                                    // return queryCiteria.noteTags.every(tag => note.tags.includes(tag));
-                                
-                                
-                                
+                                const tagsMatch = queryCiteria.noteTags && queryCiteria.noteTags.length > 0 
+                                    ? queryCiteria.noteTags.every(tag => note.tag.includes(tag)) 
+                                    : true;
 
-                                // Return notes where:
-                                // - Either title or content match (based on the query)
-                                // - Tags must match
                                 return (titleMatch || contentMatch) && tagsMatch;
                             })
                             .map((note, index) => (

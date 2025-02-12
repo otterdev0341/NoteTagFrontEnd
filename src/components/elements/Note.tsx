@@ -4,11 +4,12 @@ import { MdOutlineDeleteOutline } from "react-icons/md";
 import { IResNoteEntryDto } from '../../domain/NoteDto';
 
 interface NoteProps{
-    
+    onClick: () => void;
     noteData: IResNoteEntryDto;
+    setUpdateContext: (note: IResNoteEntryDto) => void;
 }
 
-export default function Note( { noteData }: NoteProps) {
+export default function Note( { setUpdateContext,onClick ,noteData }: NoteProps) {
     const { id, title, content, colorCode, status, tag, createdAt } = noteData;
 
     
@@ -16,7 +17,10 @@ export default function Note( { noteData }: NoteProps) {
     return (
         
         
-        <div className="note" id={id} style={{ backgroundColor: colorCode }}>
+        <div className="note" id={id} style={{ backgroundColor: colorCode }}  onClick={() => {
+            setUpdateContext(noteData)
+            onClick()
+            }} >
             <div className='note-header'>
                 <h2>{title}</h2>
                 <div className="note-action">
