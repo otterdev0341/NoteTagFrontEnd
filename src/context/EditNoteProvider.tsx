@@ -38,11 +38,11 @@ export const EditNoteProvider = ({ children }: { children: React.ReactNode }) =>
         }));
     };
 
-    const updateNoteStatus = (status: string) => {
-        const updatedStatus  = status === "unpin" || status === "" ? "pin" : "unpin";
+    const updateNoteStatus = () => {
+        const status  = editNote.status === "unpin" || editNote.status === "" ? "pin" : "unpin";
         setEditNote((prevNote) => ({
             ...prevNote,
-            status: updatedStatus
+            status: status
         }));
     };
 

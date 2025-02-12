@@ -11,7 +11,7 @@ export const EditNoteContext = React.createContext({
 
     updateNoteContent: (content: string) => {},
 
-    updateNoteStatus: (status: string) => {},
+    updateNoteStatus: () => {},
 
     updateNoteColor: (color: string) => {},
 

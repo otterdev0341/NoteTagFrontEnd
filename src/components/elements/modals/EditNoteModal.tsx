@@ -1,13 +1,14 @@
-import { CSSProperties } from 'react';
+import { CSSProperties, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import { IoMdClose } from 'react-icons/io';
 import { IResNoteEntryDto } from '../../../domain/NoteDto';
 import EditNoteForm from '../../form/EditNoteForm';
+import { EditNoteContext } from '../../../context/EditNoteContext';
 interface ModalProps {
     onClick?: () => void;
     isOpen: boolean;
     onClose?: () => void;
-    setBackgroundColor?: string;
+    
     noteData?: IResNoteEntryDto;
     
 }
@@ -41,13 +42,13 @@ const CLOSE_BTN_STYLES: CSSProperties = {
     fontSize: '25px',
     color: 'red'
 }
-export default function EditNoteModal({ noteData, isOpen, onClose, setBackgroundColor}: ModalProps) {
+export default function EditNoteModal({ noteData, isOpen, onClose}: ModalProps) {
     
     // inject note that selected to dit 
-
+    const {editNote} = useContext(EditNoteContext);
     const modalStyles = {
         ...MODAL_STYLES,
-        backgroundColor: noteData?.colorCode || MODAL_STYLES.backgroundColor
+        backgroundColor: editNote?.color || MODAL_STYLES.backgroundColor
     };
 
     const portalElement = document.getElementById('edit-note-portal');
@@ -59,7 +60,7 @@ export default function EditNoteModal({ noteData, isOpen, onClose, setBackground
             <div style={OVERLAY_STYLES} className='modal-overlay' onClick={onClose}></div>
             <div style={modalStyles} >
                 {
-                    noteData && <EditNoteForm  noteData={noteData} />
+                    noteData && <EditNoteForm   />
                 
                 }
                 <IoMdClose style={CLOSE_BTN_STYLES} onClick={onClose} />
