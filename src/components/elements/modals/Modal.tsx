@@ -4,7 +4,7 @@ import { IoMdClose } from 'react-icons/io';
 interface ModalProps {
     children: React.ReactNode;
     isOpen: boolean;
-    onClose?: () => void;
+    onClose: () => void;
     setBackgroundColor?: string;
 }
 

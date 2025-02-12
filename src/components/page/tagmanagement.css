@@ -1,0 +1,56 @@
+.tag-management{
+    margin-top: 20px;
+    
+    
+    
+}
+.tag-management-header {
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.user-tag-display {
+    width: auto;
+    padding: 20px 10px;
+    /* background-color: red; */
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    padding: 10px 40px;
+    
+    gap: 5px;
+}
+
+.tag-management-feature {
+    display: flex;
+}
+
+.tag-item{
+    background-color: lightskyblue;
+    display: flex;
+    column-gap: 5px;
+    align-items: center;
+    font-style: italic;
+    border: 1px solid gray;
+    padding: 3px 10px;
+    border-radius: 8px;
+}
+.tag-item:hover{
+    cursor: pointer;
+    border: 1px solid white;
+}
+
+.tag-action{
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    
+}
+
+#edit-action {
+    color: blue;
+}
+
+#delete-action {
+    color: darkred;
+}
