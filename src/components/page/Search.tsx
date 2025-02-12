@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SearchBar from "../elements/SearchBar";
 import "./search.css";
 import { IQueryDto } from "../../domain/QueryDto";
@@ -7,13 +7,34 @@ import { MdRemoveCircle } from "react-icons/md";
 import { getUserTags } from "../../utility/getUserTags";
 import { getNoteListEntry } from "../../utility/getListNoteEntry";
 import Note from "../elements/Note";
+import EditNoteModal from "../elements/modals/EditNoteModal";
+import { IResNoteEntryDto } from "../../domain/NoteDto";
+import { EditNoteContext } from "../../context/EditNoteContext";
 
 
 
 export default function Search() {
     // demo data
     const {totalNote, noteLists} = getNoteListEntry();
-   
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedNote, setSelectedNote] = useState<IResNoteEntryDto>();
+    const {setUpdateNote} = useContext(EditNoteContext);
+        function handleDataUpdate(updatedNote: IResNoteEntryDto){
+            // update selected note with updateNote 
+            setSelectedNote(updatedNote);
+        }
+        function handleNoteClick(note : IResNoteEntryDto){
+            console.log(note);
+            setIsModalOpen(true);
+            setSelectedNote(note);
+    
+            
+        };
+    
+        function handleCloseModal(){
+            setIsModalOpen(false);
+            setSelectedNote({} as IResNoteEntryDto);
+        };
        // use this to perform fetch api
        const [queryCiteria, setQueryCiteria] = useState<IQueryDto>({
            title: "",
@@ -102,13 +123,18 @@ export default function Search() {
                                 return (titleMatch || contentMatch) && tagsMatch;
                             })
                             .map((note, index) => (
-                                <Note key={index} noteData={note} />
+                                <Note key={note.id} noteData={note} onClick={() => handleNoteClick(note)} setUpdateContext={setUpdateNote} /> // Pass the `noteData` prop here
                             ))
                        }
                    </div>
                        
                </div>
            </div>
+           {
+                           isModalOpen && (
+                               <EditNoteModal isOpen={isModalOpen} noteData={selectedNote} onClose={handleCloseModal} />
+                           )
+                       }
            </>
        );
 }
