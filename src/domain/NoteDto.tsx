@@ -39,3 +39,15 @@ export interface IReqUpdateNoteDto{
     noteTags?: string[];
 
 }
+
+export const defaultQueryNote: IQueryNoteDto = {
+    title: "",
+    detail: "",
+    noteTags: [],
+};
+
+export interface IQueryNoteDto{
+    title?: string;
+    detail?: string;
+    noteTags?: string[];
+}
