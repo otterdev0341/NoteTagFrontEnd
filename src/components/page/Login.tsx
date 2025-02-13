@@ -4,8 +4,8 @@ import { ILoginUserData } from "../../domain/AuthDto";
 import { useContext, useState } from "react";
 import Cookies from 'js-cookie';
 import { isValidEmail, isValidPassword } from "../../utility/validateData";
-import { api_login } from "../../services/auth";
 import { AuthContext } from "../../context/AuthContext";
+import { ResultUtils } from "../../types/Result";
 
 
 
@@ -53,10 +53,22 @@ export default function Login() {
         event.preventDefault();
         if (validateLoginData(loginData)) {
             // already got token from api_login
-            const token = await api_login(loginData);
+            const auth_service = new AuthService();
+            const login_result = await auth_service.sign_in(loginData);
+            
+            const token = ResultUtils.match(
+                login_result,
+                (data: string) => data,
+                (error: AuthError) => {
+                    console.error(error);
+                    return "";
+                }
+            );
+            
             // persist to cookies
             // if already exist in cookies, it will be updated
             // 1 / 48 of a day is 30 minutes
+
             Cookies.set("token", token, { expires: 1 / 48 });
             setToken(token);
             console.log("token save succesfully");

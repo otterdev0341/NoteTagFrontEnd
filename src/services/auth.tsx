@@ -1,7 +1,7 @@
-import axios from "axios";
-import { ILoginUserData, IRegisterUserData } from "../domain/AuthDto";
+
+import { ILoginUserData, IRegisterUserData, IResSignUp } from "../domain/AuthDto";
 import { Result, ResultUtils } from "../types/Result";
-import { METHODS } from "http";
+
 
 export enum AuthError {
     InvalidCredentials = "Invalid credentials",
@@ -24,7 +24,7 @@ export class AuthService{
         this.feature_me = import.meta.env.VITE_FEATURE_ME;
     }
 
-    async sign_up(registerData: IRegisterUserData): Promise<Result<IRegisterUserData,string>> {
+    async sign_up(registerData: IRegisterUserData): Promise<Result<IResSignUp,string>> {
         try {
             const response = await fetch(`${this.base_url}${this.feature_sign_up}`, {
                 method: 'POST',
@@ -36,7 +36,8 @@ export class AuthService{
             if (!response.ok) {
                 return ResultUtils.Err(AuthError.ServerError);
             }
-            return ResultUtils.Ok(registerData);
+            const result: IResSignUp = { msg: "User registered successfully" };
+            return ResultUtils.Ok(result);
         } catch (error) {
             console.error(error);
             return ResultUtils.Err(AuthError.UnknownError);

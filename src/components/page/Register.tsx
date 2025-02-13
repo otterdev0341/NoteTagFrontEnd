@@ -3,8 +3,10 @@ import "./register.css";
 import { useNavigate } from "react-router-dom";
 import { IRegisterUserData } from "../../domain/AuthDto";
 import { isFirsttNameLastName, isGenderValid, isValidEmail, isValidPassword, isValidUsername } from "../../utility/validateData";
+import { AuthService } from "../../services/auth";
+import { ResultUtils } from "../../types/Result";
 
-import api_register from "../../services/auth";
+
 
 export default function Register() {
   const navigate = useNavigate();
@@ -79,13 +81,23 @@ export default function Register() {
     if (!validateResult) {
       return
     } else {
-      const result = await api_register(registerData);
+      const auth_service = new AuthService();
+      const result = await auth_service.sign_up(registerData);
       const registerResult = document.getElementById("register-result");
       if (registerResult) {
-        if (result === "user registered successfully") {
+
+      const operationResult = ResultUtils.match(result, (data) => {
+        return data.msg;
+      }, (error) => {
+        return error;
+      });
+      
+        
+
+        if (operationResult === "User registered successfully") {
           registerResult.classList.add("green");
           registerResult.style.display = "block";
-          registerResult.innerHTML = result as string;
+          registerResult.innerHTML = operationResult as string;
           setTimeout(() => {
             navigate("/login");
           }, 3000);

@@ -24,3 +24,7 @@ export interface IAuthContext {
   setToken: (token: string) => void;
   setEmpty: () => void;
 }
+
+export interface IResSignUp{
+  msg: string;
+}
