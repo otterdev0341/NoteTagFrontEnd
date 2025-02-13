@@ -1,4 +1,4 @@
-import { defaultQueryNote, INoteListDto, IQueryNoteDto, IResNoteEntryDto } from "../domain/NoteDto";
+import { INoteListDto, IQueryNoteDto, IResNoteEntryDto } from "../domain/NoteDto";
 import { Result, ResultUtils } from "../types/Result";
 
 export class QueryService{

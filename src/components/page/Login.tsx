@@ -6,6 +6,7 @@ import Cookies from 'js-cookie';
 import { isValidEmail, isValidPassword } from "../../utility/validateData";
 import { AuthContext } from "../../context/AuthContext";
 import { ResultUtils } from "../../types/Result";
+import { AuthError, AuthService } from "../../services/auth";
 
 
 
