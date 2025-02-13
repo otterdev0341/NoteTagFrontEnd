@@ -35,7 +35,11 @@ const CLOSE_BTN_STYLES: CSSProperties = {
     right: 10,
     cursor: 'pointer',
     fontSize: '25px',
-    color: 'red'
+    color: 'red',
+    textShadow: '1px 1px 3px white, -1px -1px 3px white', // White glow effect
+    border: '2px solid white', // Thin white border
+    padding: '2px', // Small padding for better visibility
+    borderRadius: '50%', // Optional: Makes it round like a button
 }
 export default function Modal({ children, isOpen, onClose, setBackgroundColor}: ModalProps) {
     

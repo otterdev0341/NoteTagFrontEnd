@@ -1,0 +1,121 @@
+.landing {
+    display: flex;
+    flex-direction: column;
+    padding: 0px 20px;
+    /* height: 100vh; */
+    /* background-color: rebeccapurple; */
+    text-align: center;
+}
+
+.content-section {
+    display: flex;
+    margin: 20px 0;
+    gap: 20px;
+    
+}
+
+.image-side {
+    /* background-color: aqua; */
+    padding-top: 80px;
+    
+    flex: 3;
+}
+
+.image2{
+    /* margin-top: 9em; */
+}
+
+.context-side {
+    /* background-color: lightblue; */
+    flex: 7;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 20px;
+}
+
+#landing-title {
+    text-align: center;
+    /* background-color: red; */
+}
+
+.landing-content {
+    display: flex;
+    margin-top: 20px;
+}
+
+
+
+
+
+.main-photo, .two-nd-photo, .three-rd-photo{
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
+
+
+.landing-text {
+    margin: 10px 10px;
+    text-wrap: wrap;
+    text-align: left;
+}
+
+.landing-text-content {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.why-choose {
+    font-size: large;
+    text-wrap: wrap;
+    text-align: left;
+}
+
+p{
+    text-indent: 1em;
+}
+
+.landing-text-area {
+    list-style: none;
+    
+    font-size: medium;    
+}
+.landing-text-area li {
+    text-indent: -1em; /* Aligns the first line properly */
+    padding-left: 2em; /* Indents the second and further lines */
+    margin: 10px 0;
+    /* background-color: rebeccapurple; */
+}
+
+* li {
+    list-style: none;
+}
+
+.sub-header {
+    /* background-color: rebeccapurple; */
+    margin: 10px 0;
+}
+
+.sub-header-content {
+    text-wrap: wrap;
+    text-indent: -1em; /* Aligns the first line properly */
+    padding-left: 2em; /* Indents the second and further lines */
+}
+
+.dev-msg-section {
+    display: flex;
+    flex-direction: column;
+    text-wrap: wrap;
+    row-gap: 10px;
+    justify-content: center;
+    align-items: center;
+    
+}
+.dev-msg-preface {
+    align-self: flex-start;
+    margin-left: 2.2em;
+}
+
+

@@ -13,6 +13,7 @@ import Cookies from "js-cookie";
 import { useState } from "react";
 import Home from "./components/page/Home";
 import TagManagement from "./components/page/TagManagement";
+import Landing from "./components/page/Landing";
 
 
 export default function App(){
@@ -24,7 +25,8 @@ export default function App(){
       <Navbar />
       
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/search" element={<Search />} />

@@ -141,7 +141,7 @@ export default function NewNote() {
         <div className="new-note">
             <form action="" onFocus={onOpen}>
                 <div className="new-note-title">
-                    <input type="text" placeholder="add note" autoComplete="off"  />
+                    <input type="text" placeholder="add note" autoComplete="off"   />
                 </div>
                
             </form>
