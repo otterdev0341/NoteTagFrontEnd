@@ -6,5 +6,6 @@ export const AuthContext = createContext<IAuthContext>({
     token: "",
     setToken: () => {},
     setEmpty: () => {},
+    isTokenExist: () => true || false,
 });
 

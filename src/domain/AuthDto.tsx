@@ -15,6 +15,7 @@ export interface ILoginUserData {
 
 export interface IAuthContext {
   token: string;
+  isTokenExist: () => boolean;
   
 }
 
