@@ -4,7 +4,7 @@ import { ILoginUserData } from "../../domain/AuthDto";
 import { useContext, useState } from "react";
 import Cookies from 'js-cookie';
 import { isValidEmail, isValidPassword } from "../../utility/validateData";
-import { api_login } from "../../api/auth";
+import { api_login } from "../../services/auth";
 import { AuthContext } from "../../context/AuthContext";
 
 

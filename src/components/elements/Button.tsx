@@ -8,30 +8,28 @@ export enum ButtonType {
     Danger = "danger",
     }
 
-const PrimaryButton = styled.button({
-    padding: "5px 10px",
-    borderRadius: "5px",
-    backgroundColor: "#6495ED",
-    color: "#F9F9FF",
-    cursor: "pointer",
-});
-
-const SuccessButton = styled.button({
-    padding: "5px 10px",
-    backgroundColor: "#00FF00",
-    color: "#F9F9FF"
-});
-
-const WarningButton = styled.button({
-    padding: "5px 10px",
-    backgroundColor: "#FFFF00",
-    color: "#F9F9FF"
-});
-const DangerButton = styled.button({
-    padding: "5px 10px",
-    backgroundColor: "#FF0000",
-    color: "#F9F9FF"
-});
+    const BaseButton = styled.button({
+        padding: "5px 10px",
+        borderRadius: "5px",
+        color: "#F9F9FF",
+        cursor: "pointer",
+    });
+    
+    const PrimaryButton = styled(BaseButton)({
+        backgroundColor: "#6495ED",
+    });
+    
+    const SuccessButton = styled(BaseButton)({
+        backgroundColor: "#00FF00",
+    });
+    
+    const WarningButton = styled(BaseButton)({
+        backgroundColor: "#FFFF00",
+    });
+    
+    const DangerButton = styled(BaseButton)({
+        backgroundColor: "#FF0000",
+    });
 
 interface ButtonProps {
     button_type: ButtonType;

@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { getUserTags } from "../../utility/getUserTags";
-import EachTag from "../elements/EachTag";
 import "./tagmanagement.css"
-import { CiEdit } from "react-icons/ci";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { MdOutlineEdit } from "react-icons/md";
 import { Tooltip } from "react-tooltip";
 import Modal from "../elements/modals/Modal";
+import CustomButton, { ButtonType } from "../elements/Button";
 
 
 export default function TagManagement(){
@@ -51,31 +50,37 @@ export default function TagManagement(){
             </div>
             <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
                 <div>
-                    <h2>Edit Tag</h2>
-                    <form action="">
+                    <h3>Edit Tag</h3>
+                    <form action="" style={{marginTop: "20px"}}>
                         <div className="form-group">
                             <label htmlFor="old-tag-name">Old Tag Name</label>
                             <input type="text" id="old-tag-name" value={editTag} readOnly />
                         </div>
                         <div className="form-group">
                             <label htmlFor="new-tag-name">New Tag Name</label>
-                            <input type="text" id="new-tag-name" value={newTagName} onChange={(event) => setNewTagName((event.target as HTMLInputElement).value)} />
+                            <input type="text" id="new-tag-name" autoComplete="off" value={newTagName} onChange={(event) => setNewTagName((event.target as HTMLInputElement).value)} />
                         </div>
-                        <div>
-                            <button>Save</button>
-                            <button>Cancel</button>
+                        <div className="edit-tag-action">
+                            <CustomButton button_type={ButtonType.Primary} text="Save" ></CustomButton>
+                            <CustomButton button_type={ButtonType.Danger} text="Cancel" onClick={() => setIsEditModalOpen(false)} ></CustomButton>
+                            
                         </div>
                     </form>
                 </div>    
             </Modal>
             <Modal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)}>
                 <div>
-                    <h2>Are you sure you want to delete this tag?</h2>
-                    <p>The tag will be permanently deleted, but all notes associated with it will remain.</p>
+                    <h3>Are you sure you want to delete this tag?</h3>
+                    <p style={{marginTop: "20px", textAlign: "center"}}>
+                        The tag will be permanently deleted.
+                    </p>
+                    <p style={{marginBottom: "20px", textAlign: "center"}}>
+                        all notes associated with it will remain.
+                    </p>
                 </div>
-                <div style={{display: "flex", justifyContent: "center", columnGap: "10px"}}>
-                    <button>Yes</button>
-                    <button>No</button>
+                <div style={{display: "flex", justifyContent: "center", columnGap: "30px"}}>
+                    <CustomButton button_type={ButtonType.Primary} text="Yes" ></CustomButton>
+                    <CustomButton button_type={ButtonType.Danger} text="No" onClick={() => setIsDeleteModalOpen(false)}></CustomButton>
                 </div>
             </Modal>
         </div>

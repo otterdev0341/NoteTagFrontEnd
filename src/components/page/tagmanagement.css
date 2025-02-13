@@ -54,3 +54,16 @@
 #delete-action {
     color: darkred;
 }
+
+#old-tag-name {
+    background-color: gray;
+    color: white;
+    font-style: italic;
+    font-size: large;
+}
+
+.edit-tag-action {
+    display: flex;
+    justify-content: center;
+    column-gap: 30px;
+}

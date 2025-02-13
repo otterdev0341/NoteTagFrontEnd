@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { IRegisterUserData } from "../../domain/AuthDto";
 import { isFirsttNameLastName, isGenderValid, isValidEmail, isValidPassword, isValidUsername } from "../../utility/validateData";
 
-import api_register from "../../api/auth";
+import api_register from "../../services/auth";
 
 export default function Register() {
   const navigate = useNavigate();

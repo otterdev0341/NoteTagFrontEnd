@@ -3,7 +3,7 @@ import { ILoginUserData, IRegisterUserData } from "../domain/AuthDto";
 
 
 
-export default async function api_register(registerData: IRegisterUserData): Promise<string> {
+export default async function sign_up(registerData: IRegisterUserData): Promise<string> {
 
     const BASE_URL = import.meta.env.VITE_API_BASE_URL;
     const REGISTER_URL = import.meta.env.VITE_FEATURE_REGISTER;
@@ -35,7 +35,7 @@ export default async function api_register(registerData: IRegisterUserData): Pro
 }
 
 
-export  async function api_login(loginData: ILoginUserData): Promise<string> {
+export  async function sign_in(loginData: ILoginUserData): Promise<string> {
     const BASE_URL = import.meta.env.VITE_API_BASE_URL;
     const LOGIN_URL = import.meta.env.VITE_FEATURE_LOGIN;
 
