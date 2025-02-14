@@ -8,16 +8,22 @@ import { AuthProvider } from './context/AuthProvider.tsx'
 
 import { EditNoteProvider } from './context/EditNoteProvider.tsx';
 
+import ErrorBoundary from './components/error/ErrorBoundary.tsx';
+
 
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>  
     <Router>
+    
       <AuthProvider>
         <EditNoteProvider>
-          <App />
+          <ErrorBoundary>
+            <App />
+          </ErrorBoundary>
         </EditNoteProvider>
       </AuthProvider>
+      
     </Router>
   </StrictMode>,
 )

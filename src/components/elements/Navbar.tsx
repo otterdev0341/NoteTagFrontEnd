@@ -19,6 +19,8 @@ export default function Navbar(){
     function logout(){
         Cookies.remove('token');
         // Cookies.set('token', '');
+        // remove local storege
+        localStorage.removeItem('token');
         setEmpty();
         setTimeout(() => {
             navigate('/login');
@@ -62,7 +64,7 @@ export default function Navbar(){
                 
                 <div className="user">
                     { user_status ? (
-                        <CustomButton button_type={ButtonType.Primary} text="Logout" onClick={logout} />
+                        <CustomButton button_type={ButtonType.Warning} text="Logout" onClick={logout} />
                     ) : (
                         <>
                             <CustomButton button_type={ButtonType.Primary} text="Register" onClick={() => navigate('/register')} />

@@ -15,12 +15,12 @@ export const EditNoteProvider = ({ children }: { children: React.ReactNode }) =>
     const setUpdateNote = (note: IResNoteEntryDto) => {
         setEditNote((prevNote) => ({
             ...prevNote,
-            id: note.id,
+            id: note.id.toString(),
             title: note.title,
             content: note.content,
             status: note.status,
             color: note.colorCode,
-            noteTags: note.tag
+            noteTags: note.noteTags
         }));
     };
 

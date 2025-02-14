@@ -8,26 +8,20 @@ export interface Note{
     createdAt: Date;
 }
 export interface INoteListDto{
-    totalNote: number;
-    noteLists: IResNoteEntryDto[];
+    total: number;
+    notes: Array<IResNoteEntryDto>;
 }
 
-export interface ICreateNoteDto{
-    title: string;
-    content: string;
-    color: string;
-    status: string;
-    noteTags: string[];
-}
 
 export interface IResNoteEntryDto{
-    id: string;
+    id: number;
     title: string;
     content:string;
     colorCode: string;
-    status: string;
-    tag: string[];
-    createdAt: Date;
+    status: "pin" | "unpin";
+    noteTags: string[];
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface IReqUpdateNoteDto{
@@ -37,7 +31,7 @@ export interface IReqUpdateNoteDto{
     color?: string;
     status?: string;
     noteTags?: string[];
-
+    
 }
 
 export const defaultQueryNote: IQueryNoteDto = {
@@ -50,4 +44,11 @@ export interface IQueryNoteDto{
     title?: string;
     detail?: string;
     noteTags?: string[];
+}
+export interface ICreateNoteDto{
+    title: string;
+    content: string;
+    color: string;
+    status: string;
+    noteTags: string[];
 }

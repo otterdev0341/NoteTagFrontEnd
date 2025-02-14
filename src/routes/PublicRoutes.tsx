@@ -6,7 +6,7 @@ export default function PublicRoute() {
    const { isUserLogIn } = useContext(AuthContext);
 
    // Memoize the value to prevent re-renders
-   const userLoggedIn = useMemo(() => isUserLogIn(), [isUserLogIn]);
+   const userLoggedIn = isUserLogIn();
 
    return userLoggedIn ? <Navigate to="/note" replace /> : <Outlet />;
 }

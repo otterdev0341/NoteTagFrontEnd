@@ -2,12 +2,12 @@ export class Option<T> {
     private constructor(private readonly value: T | null) {}
 
     // Create an Option<T> from a value
-    static Some<T>(value: T): Option<T> {
+    public static Some<T>(value: T): Option<T> {
         return new Option(value);
     }
 
     // Create an Option<T> from null (equivalent to None in Rust)
-    static None<T>(): Option<T> {
+    public static None<T>(): Option<T> {
         return new Option<T>(null);
     }
 

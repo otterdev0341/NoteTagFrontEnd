@@ -1,13 +1,17 @@
-import { ICreateNoteDto, IReqUpdateNoteDto, IResNoteEntryDto } from "../domain/NoteDto";
+
+import { ICreateNoteDto, INoteListDto, IReqUpdateNoteDto, IResNoteEntryDto } from "../domain/NoteDto";
 import { Option } from "../types/Option";
 import { Result, ResultUtils } from "../types/Result";
 export class NoteService{
+    
+    
     
     private user_token: string;
     private base_url: string;
     private feature_url: string;
     
     constructor(token: string) {
+        
         this.user_token = token;
         this.base_url = import.meta.env.VITE_API_BASE_URL;
         this.feature_url = import.meta.env.VITE_FEATURE_NOTE;
@@ -92,7 +96,7 @@ export class NoteService{
     }
 
     async get_all_notes()
-        : Promise<Result<IResNoteEntryDto[], string>> 
+        : Promise<Result<INoteListDto, string>> 
     {
         try {
             const response = await fetch(`${this.base_url}${this.feature_url}`, {
@@ -101,17 +105,22 @@ export class NoteService{
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${this.user_token}`
                 }
+                
             });
             if (!response.ok) {
                 // If the response is not OK, return Err with a meaningful error message
-                return ResultUtils.Err<IResNoteEntryDto[], string>("Failed to fetch the notes");
+                return ResultUtils.Err<INoteListDto, string>("Failed to fetch the notes");
             }
             const result: IResNoteEntryDto[] = await response.json();
-            return ResultUtils.Ok<IResNoteEntryDto[], string>(result);
+            // console.log(result);
+            return ResultUtils.Ok<INoteListDto, string>({
+                total: result.length,
+                notes: result
+            });
         } catch (error) {
             console.error(error);
             // If an error occurs, return Err with the error message
-            return ResultUtils.Err<IResNoteEntryDto[], string>("An error occurred while fetching the notes");
+            return ResultUtils.Err<INoteListDto, string>("An error occurred while fetching the notes");
         }
     };
 

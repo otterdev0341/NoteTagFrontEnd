@@ -25,6 +25,7 @@ export enum ButtonType {
     
     const WarningButton = styled(BaseButton)({
         backgroundColor: "#FFFF00",
+        color: "#000000",
     });
     
     const DangerButton = styled(BaseButton)({

@@ -10,14 +10,25 @@ interface NoteProps{
 }
 
 export default function Note( { setUpdateContext,onClick ,noteData }: NoteProps) {
-    const { id, title, content, colorCode, status, tag, createdAt } = noteData;
+    
+     // Log the props to check if they are being passed correctly
+
+    console.log('Note component props:', { setUpdateContext, onClick, noteData });
+
+    // Check if noteData is defined
+    if (!noteData) {
+        return <div>No note data available</div>;
+    }
+    
+    const { id, title, content, colorCode, status, noteTags, createdAt } = noteData;
 
     
     
     return (
         
         
-        <div className="note" id={id} style={{ backgroundColor: colorCode }}  onClick={() => {
+
+        <div className="note" id={id.toString()} style={{ backgroundColor: colorCode }}  onClick={() => {
             setUpdateContext(noteData)
             onClick()
             }} >
@@ -37,9 +48,13 @@ export default function Note( { setUpdateContext,onClick ,noteData }: NoteProps)
             </div>
             <div className='note-footer'>
                 {
-                    tag.map((tag, index) => (
+                    Array.isArray(noteTags) && noteTags.length > 0 ? (
+                    noteTags.map((tag, index) => (
                         <span id='tag-item' key={index} className='tag'>{`#${tag}`}</span>
-                ))}
+                ))): (
+                        <span id='tag-item' className='tag'>No Tags</span>
+                    )
+                }
             </div>
             
 

@@ -1,18 +1,17 @@
-import { use, useEffect, useState } from "react";
+import { useState } from "react";
 import "./newnote.css";
 import Modal from "./modals/Modal";
 import { ICreateNoteDto } from "../../domain/NoteDto";
 import { getColorPalatte } from "../../utility/colorPalatte";
 import ColorPalatte from "./ColorPalatte";
 import { RiPushpinFill, RiUnpinFill } from "react-icons/ri";
-import { noteStatus } from "../../utility/noteStatus";
 
 import { Tooltip } from "react-tooltip";
 import { getUserTags } from "../../utility/getUserTags";
 import EachTag from "./EachTag";
 import { FaCirclePlus } from "react-icons/fa6";
 import { isAlphanumeric } from "../../utility/validateData";
-import EditNoteModal from "./modals/EditNoteModal";
+
 
 
 export default function NewNote() {
@@ -119,19 +118,19 @@ export default function NewNote() {
         setFilterTagKeyword("");
         
     }
-    useEffect(() => {
-        setNewNote({
-            ...newNote,
-            noteTags: appendTag
-        });
-    }, [appendTag]);
+    // useEffect(() => {
+    //     setNewNote({
+    //         ...newNote,
+    //         noteTags: appendTag
+    //     });
+    // }, [appendTag]);
 
-    useEffect(() => {
-        const filteredTag = allTags.filter(tag => tag.includes(filterTagKeyword));
-        setFilterTag(filteredTag);
+    // useEffect(() => {
+    //     const filteredTag = allTags.filter(tag => tag.includes(filterTagKeyword));
+    //     setFilterTag(filteredTag);
         
         
-    }, [filterTagKeyword]);
+    // }, [filterTagKeyword]);
 
 
     // >>>> DISPLAY UI <<<<
@@ -166,7 +165,7 @@ export default function NewNote() {
                     <div className="display-color-palatte">
                         {color_palatte.map((color, index) => (
                             
-                            <ColorPalatte key={index} color={color} appendColor={selectedColor} isSelected={newNote.color === color} />
+                            <ColorPalatte key={color} color={color} appendColor={selectedColor} isSelected={newNote.color === color} />
                         ))}
                     </div>
                 </div>
@@ -186,8 +185,8 @@ export default function NewNote() {
                     <div className="appended-tag">
                         {
                             appendTag.map((tag, index) => (
-                                <a data-tooltip-id="my-tooltip" data-tooltip-content="click to remove tag">
-                                    <EachTag key={index} tag={tag} onClick={() => removeTagHandler(tag)} />
+                                <a key={index}  data-tooltip-id="my-tooltip" data-tooltip-content="click to remove tag">
+                                    <EachTag tag={tag} onClick={() => removeTagHandler(tag)} />
                                 </a>
                             ))
                         }
@@ -209,13 +208,13 @@ export default function NewNote() {
                         {
                             filterTag.length > 0 || filterTagKeyword.length > 0 ? (
                                 filterTag.map((tag, index) => (
-                                    <a data-tooltip-id="my-tooltip" data-tooltip-content="click to append tag">
+                                    <a key={index}  data-tooltip-id="my-tooltip" data-tooltip-content="click to append tag">
                                         <EachTag key={index} tag={tag} onClick={() => appendTagHandler(tag)} />
                                     </a>
                                 ))
                             ) : (
                                 allTags.map((tag, index) => (
-                                    <a data-tooltip-id="my-tooltip" data-tooltip-content="click to append tag">
+                                    <a key={index} data-tooltip-id="my-tooltip" data-tooltip-content="click to append tag">
                                         <EachTag key={index} tag={tag} onClick={() => appendTagHandler(tag)} />
                                     </a>
                                 ))
