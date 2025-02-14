@@ -12,8 +12,9 @@ import { log } from 'console';
 export default function Navbar(){
 
     const navigate = useNavigate();
-    const {token, setEmpty} = useContext(AuthContext);
+    const {isUserLogIn, setEmpty} = useContext(AuthContext);
 
+    const user_status = isUserLogIn();
 
     function logout(){
         Cookies.remove('token');
@@ -28,25 +29,39 @@ export default function Navbar(){
     return(
         <nav className="navbar">
             <div className='logo'>
-                <span onClick={() => navigate("/")}>Note List</span>
+                <span onClick={() => navigate("/note")}>Note List</span>
             </div>
             <div id='menu'>
                 <div>
                     <ul>
-                        <li>       
-                            <NavLink to={'/'}  >Home</NavLink >
+                        <li>
+                            {
+                                user_status ? (
+                                    <NavLink to={'/note'}  >Notes</NavLink >
+                                ) : (
+                                    <NavLink to={'/'}  >Home</NavLink >
+                                )
+                            }       
+                            
                         </li>
+                        {
+                            user_status ? (
+                        <>
                         <li>
                             <NavLink to={'/search'}>Search</NavLink>
                         </li>
                         <li>
                             <NavLink to={'/tags'}>Tags</NavLink>
                         </li>
+                        </>
+                            ) : null
+                        }
+                        
                     </ul>
                 </div>
                 
                 <div className="user">
-                    {token && token.length > 0 ? (
+                    { user_status ? (
                         <CustomButton button_type={ButtonType.Primary} text="Logout" onClick={logout} />
                     ) : (
                         <>

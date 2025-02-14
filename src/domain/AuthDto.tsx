@@ -13,18 +13,6 @@ export interface ILoginUserData {
     password: string;
 }
 
-export interface IAuthContext {
-  token: string;
-  isTokenExist: () => boolean;
-  
-}
-
-export interface IAuthContext {
-  token: string;
-  setToken: (token: string) => void;
-  setEmpty: () => void;
-}
-
 export interface IResSignUp{
   msg: string;
 }

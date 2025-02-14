@@ -11,7 +11,7 @@ import { AuthError, AuthService } from "../../services/auth";
 
 
 export default function Login() {
-    const {setToken} = useContext(AuthContext);
+    const {performLogin} = useContext(AuthContext);
     const initialLoginData : ILoginUserData = {
         email: "",
         password: "",
@@ -48,32 +48,17 @@ export default function Login() {
         }
         setErrors(newErrors);
         return isvalid;
+        
     }
 
     async function onLoginSubmit(event: React.FormEvent<HTMLFormElement> | React.KeyboardEvent<HTMLInputElement>) {
         event.preventDefault();
         if (validateLoginData(loginData)) {
             // already got token from api_login
-            const auth_service = new AuthService();
-            const login_result = await auth_service.sign_in(loginData);
             
-            const token = ResultUtils.match(
-                login_result,
-                (data: string) => data,
-                (error: AuthError) => {
-                    console.error(error);
-                    return "";
-                }
-            );
+            performLogin(loginData);
+ 
             
-            // persist to cookies
-            // if already exist in cookies, it will be updated
-            // 1 / 48 of a day is 30 minutes
-
-            Cookies.set("token", token, { expires: 1 / 48 });
-            setToken(token);
-            console.log("token save succesfully");
-            navigate("/");
         }
     }
 

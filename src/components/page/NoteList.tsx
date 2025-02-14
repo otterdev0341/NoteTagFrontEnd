@@ -1,7 +1,7 @@
 import NewNote from "../elements/NewNote";
 import NoteLists from "../elements/NoteLists";
 
-export default function Main() {
+export default function NoteList() {
   return (
     <div>
       <NewNote />

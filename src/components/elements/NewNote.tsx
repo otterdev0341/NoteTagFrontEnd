@@ -17,6 +17,7 @@ import EditNoteModal from "./modals/EditNoteModal";
 
 export default function NewNote() {
     
+    
 
     // new note to persist to api area
     const [newNote, setNewNote] = useState<ICreateNoteDto>({
@@ -27,9 +28,7 @@ export default function NewNote() {
         noteTags:[]
      });
  
-     useEffect(() => {
-         console.log(newNote);
-     }, [newNote]);
+     
     function setNoteContentnt(content: string) {
         setNewNote({
             ...newNote,

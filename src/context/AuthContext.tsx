@@ -1,11 +1,14 @@
 import { createContext, useState } from "react";
-import { IAuthContext } from "../domain/AuthDto";
+import { IAuthContext } from "./schemas/auth_schema";
+
 
 
 export const AuthContext = createContext<IAuthContext>({
     token: "",
     setToken: () => {},
     setEmpty: () => {},
-    isTokenExist: () => true || false,
+    isUserLogIn: () => true || false,
+    performLogin: () => {}
+    
 });
 
