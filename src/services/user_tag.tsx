@@ -35,7 +35,7 @@ export class UserTagService{
         }
     }
 
-    async get_user_tags(): Promise<Result<string[], string>>
+    async get_user_tags(): Promise<Result<IUserTagDto, string>>
     {
         try {
             const response = await fetch(`${this.base_url}${this.feature_url}`, {
@@ -48,7 +48,7 @@ export class UserTagService{
             if (!response.ok) {
                 return ResultUtils.Err("Failed to fetch the tags");
             }
-            const data: string[] = await response.json();
+            const data: IUserTagDto = await response.json();
             return ResultUtils.Ok(data);
         } catch (error) {
             console.error(error);

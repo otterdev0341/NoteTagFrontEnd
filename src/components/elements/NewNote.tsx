@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import "./newnote.css";
 import Modal from "./modals/Modal";
 import { IReqCreateNoteDto } from "../../domain/NoteDto";
@@ -10,13 +10,19 @@ import { Tooltip } from "react-tooltip";
 import { getUserTags } from "../../utility/getUserTags";
 import EachTag from "./EachTag";
 import { FaCirclePlus } from "react-icons/fa6";
-import { isAlphanumeric } from "../../utility/validateData";
+import { isAlphanumeric, isNewNoteEmpty } from "../../utility/validateData";
+import { IUserTagListDto } from "../../domain/UserTagDto";
+import { injectUserToken } from "../../utility/inject_cookies";
+import { fetchUserTag } from "../../hooks/user_tag";
+import { fetchNotes, persistNewNote } from "../../hooks/note";
+import { Navigate, useNavigate } from "react-router-dom";
+
 
 
 
 export default function NewNote() {
     
-    
+    const use_navigate = useNavigate();
 
     // STATE DEFEINITION AREA
     const [newNote, setNewNote] = useState<IReqCreateNoteDto>({
@@ -26,25 +32,53 @@ export default function NewNote() {
         status:"",
         noteTags:[]
      });
-     
-    // END STATE DEFINITION AREA
-    function setNoteContentnt(content: string) {
-        setNewNote({
-            ...newNote,
-            content: content
-        });
+    const [userTag, setUserTag] = useState<IUserTagListDto>({
+        totalTag : 0,
+        tagList: []
+    });
+    
+    const [appendTag, setAppendTag] = useState<string[]>([]);
+    const [filterTag, setFilterTag] = useState<string[]>([]);
+    const [filterTagKeyword, setFilterTagKeyword] = useState<string>("");
+
+    // USEE EFFECT DEFINITION AREA && inject hooks funtion
+    const user_token = injectUserToken();
+    if (!user_token) {
+        throw new Error("Token not found");
     }
-    function setNoteTitle(title: string) {
-        setNewNote({
-            ...newNote,
-            title: title
-        });
+    useEffect(() => {
+        fetchUserTag(user_token, setUserTag, userTag);
+        setNoteField("noteTags", appendTag);
+    },[user_token,appendTag.length]);
+
+    useEffect(() => {
+        console.log(newNote);
+    },[newNote]);
+    // handle new note update data
+    function setNoteField<T extends keyof IReqCreateNoteDto>(field: T, value: IReqCreateNoteDto[T]) {
+        setNewNote(prevNote => ({
+            ...prevNote,
+            [field]: value
+        }));
     }
+
     // modal handle area
     const [isOpen, setIsOpen] = useState(false);
-    function onClose() {
+    async function onClose() {
         setIsOpen(false);
+        setAppendTag([]);
         // call new note api here
+        if(!isNewNoteEmpty(newNote)){
+            try {
+                const result = await persistNewNote(user_token, newNote);
+                use_navigate("/notes");
+                    // this work but refresh th page
+                    // window.location.href = "/notes"; 
+                
+            } catch(error) {
+                console.error("Error creating note:", error);
+            }
+        }
     }
     function onOpen() {
         setIsOpen(true);
@@ -80,8 +114,8 @@ export default function NewNote() {
         }
     }
     // handle user tag to check is it already exist or not
-    const allTags = getUserTags();
-    const [appendTag, setAppendTag] = useState<string[]>([]);
+    
+    
     
     function appendTagHandler(tag: string) {
         if(appendTag.includes(tag)){
@@ -93,8 +127,7 @@ export default function NewNote() {
         setAppendTag(appendTag.filter(t => t !== tag));
     }
 
-    const [filterTag, setFilterTag] = useState<string[]>([]);
-    const [filterTagKeyword, setFilterTagKeyword] = useState<string>("");
+    
     
     // new-tag funtion
     // rule filterTag must be empty and must not contain in allTags
@@ -103,7 +136,7 @@ export default function NewNote() {
         if(filterTag.length > 0){
             return;
         }
-        if(allTags.includes(tag)){
+        if(userTag.tagList.includes(tag)){
             return;
         }
         if(tag.length < 1){
@@ -118,19 +151,7 @@ export default function NewNote() {
         setFilterTagKeyword("");
         
     }
-    // useEffect(() => {
-    //     setNewNote({
-    //         ...newNote,
-    //         noteTags: appendTag
-    //     });
-    // }, [appendTag]);
 
-    // useEffect(() => {
-    //     const filteredTag = allTags.filter(tag => tag.includes(filterTagKeyword));
-    //     setFilterTag(filteredTag);
-        
-        
-    // }, [filterTagKeyword]);
 
 
     // >>>> DISPLAY UI <<<<
@@ -163,9 +184,9 @@ export default function NewNote() {
                     </div>
                     
                     <div className="display-color-palatte">
-                        {color_palatte.map((color, index) => (
+                        {color_palatte.map((color) => (
                             
-                            <ColorPalatte key={color} color={color} appendColor={selectedColor} isSelected={newNote.color === color} />
+                            <ColorPalatte key={color} color={color} appendColor={() => selectedColor(color)} isSelected={newNote.color === color} />
                         ))}
                     </div>
                 </div>
@@ -173,11 +194,11 @@ export default function NewNote() {
                     <form action="" id="new-note-form">
                         <div className="form-group">
                             <label htmlFor="note-title">Title</label>
-                            <input id="note-title" type="text" autoComplete="off" onInput={(e) => setNoteTitle(e.currentTarget.value)} />
+                            <input id="note-title" type="text" autoComplete="off" onInput={(e) => setNoteField("title",e.currentTarget.value)} />
                         </div>
                         <div className="form-group">
                             <label htmlFor="note-content">Content</label>
-                            <textarea name="" id="note-content" cols={30} rows={25} maxLength={255} onInput={(e) => setNoteContentnt(e.currentTarget.value)}></textarea>
+                            <textarea name="" id="note-content" cols={30} rows={25} maxLength={255} onInput={(e) => setNoteField("content",e.currentTarget.value)}></textarea>
                         </div>
                     </form>
                 </div>
@@ -213,7 +234,7 @@ export default function NewNote() {
                                     </a>
                                 ))
                             ) : (
-                                allTags.map((tag, index) => (
+                                userTag.tagList.map((tag, index) => (
                                     <a key={index} data-tooltip-id="my-tooltip" data-tooltip-content="click to append tag">
                                         <EachTag key={index} tag={tag} onClick={() => appendTagHandler(tag)} />
                                     </a>

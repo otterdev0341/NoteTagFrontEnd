@@ -1,3 +1,5 @@
+import { IReqCreateNoteDto } from "../domain/NoteDto";
+
 export function isValidUsername(username: string): boolean {
   // must be 8-15 characters long
   // can contain letter, numbers, underscores, and dashes
@@ -38,4 +40,14 @@ export function isGenderValid(gender: string, genderList: string[]): boolean {
 
 export function isAlphanumeric(context: string): boolean {
   return /^[a-z0-9]+$/i.test(context);  // case-insensitive check for letters and numbers
+}
+
+
+export function isNewNoteEmpty(newNote: IReqCreateNoteDto): boolean {
+  return (
+      newNote.title === "" || newNote.title?.length === 0 &&
+      newNote.content === "" || newNote.content?.length === 0 &&
+      newNote.status === "" &&
+      (newNote.noteTags === undefined || newNote.noteTags.length === 0)
+  );
 }

@@ -6,9 +6,8 @@ import {  INoteListDto, IResNoteEntryDto } from "../../domain/NoteDto";
 import { useContext, useEffect, useState } from "react";
 import EditNoteModal from "./modals/EditNoteModal";
 import { EditNoteContext } from "../../context/EditNoteContext";
-import Cookies from "js-cookie";
-import { NoteService } from "../../services/note";
 import { fetchNotes } from "../../hooks/note";
+import { injectUserToken } from "../../utility/inject_cookies";
 
 export default function NoteLists() {
 
@@ -17,7 +16,7 @@ export default function NoteLists() {
         notes: [],
     });
     
-    const user_token = Cookies.get("token") || localStorage.getItem("token") || "";
+    const user_token = injectUserToken();
     if (!user_token) {
         throw new Error("Token not found");
     }
