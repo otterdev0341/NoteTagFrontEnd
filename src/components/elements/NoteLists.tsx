@@ -8,6 +8,7 @@ import EditNoteModal from "./modals/EditNoteModal";
 import { EditNoteContext } from "../../context/EditNoteContext";
 import Cookies from "js-cookie";
 import { NoteService } from "../../services/note";
+import { fetchNotes } from "../../hooks/note";
 
 export default function NoteLists() {
 
@@ -24,29 +25,8 @@ export default function NoteLists() {
     
 
     useEffect(() => {
-        async function fetchNotes() {
-            try {
-                const note_service = new NoteService(user_token);
-                const response = await note_service.get_all_notes();
-                console.log("Response:", response);
-                if (response.ok) {
-                    const { value } = response;
-                    
-                    console.log("Type", typeof(value.notes));
-                    console.log("cast Object", Object.entries(value.notes));
-                    const castObject = Object.entries(value.notes);
-                    console.log("cast array ob item", castObject[1][1]);
-                    console.log("cast length", castObject[0][1]);
-                    setNotes({
-                        total: castObject[0][1] as unknown as number,
-                        notes: castObject[1][1] as unknown as IResNoteEntryDto[],
-                    });
-                }
-            } catch (error) {
-                console.error("Error fetching notes:", error);
-            }
-        }
-        fetchNotes();
+        
+        fetchNotes(user_token, setNotes, notes);
     }, [user_token]);
     
     

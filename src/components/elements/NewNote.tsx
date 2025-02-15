@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./newnote.css";
 import Modal from "./modals/Modal";
-import { ICreateNoteDto } from "../../domain/NoteDto";
+import { IReqCreateNoteDto } from "../../domain/NoteDto";
 import { getColorPalatte } from "../../utility/colorPalatte";
 import ColorPalatte from "./ColorPalatte";
 import { RiPushpinFill, RiUnpinFill } from "react-icons/ri";
@@ -18,16 +18,16 @@ export default function NewNote() {
     
     
 
-    // new note to persist to api area
-    const [newNote, setNewNote] = useState<ICreateNoteDto>({
+    // STATE DEFEINITION AREA
+    const [newNote, setNewNote] = useState<IReqCreateNoteDto>({
         title:"",
         content:"",
         color:"",
         status:"",
         noteTags:[]
      });
- 
      
+    // END STATE DEFINITION AREA
     function setNoteContentnt(content: string) {
         setNewNote({
             ...newNote,

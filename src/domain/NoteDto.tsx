@@ -45,10 +45,10 @@ export interface IQueryNoteDto{
     detail?: string;
     noteTags?: string[];
 }
-export interface ICreateNoteDto{
-    title: string;
-    content: string;
-    color: string;
-    status: string;
-    noteTags: string[];
+export interface IReqCreateNoteDto{
+    title?: string;
+    content?: string;
+    color?: string;
+    status?: string;
+    noteTags?: string[];
 }

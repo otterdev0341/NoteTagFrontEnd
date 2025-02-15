@@ -11,9 +11,7 @@ interface NoteProps{
 
 export default function Note( { setUpdateContext,onClick ,noteData }: NoteProps) {
     
-     // Log the props to check if they are being passed correctly
-
-    console.log('Note component props:', { setUpdateContext, onClick, noteData });
+    
 
     // Check if noteData is defined
     if (!noteData) {
