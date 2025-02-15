@@ -20,7 +20,7 @@ interface ModalProps {
     onClose?: () => void;
     
     noteData?: IResNoteEntryDto;
-    trigger: () => void;
+    trigger?: () => void;
 }
 
 let MODAL_STYLES: CSSProperties = {
@@ -76,7 +76,7 @@ export default function EditNoteModal({trigger, noteData, isOpen, onClose }: Mod
         if(update_note.ok){
             console.log(update_note.value);
         }
-        trigger();
+        if(trigger) trigger();
         
     }
 

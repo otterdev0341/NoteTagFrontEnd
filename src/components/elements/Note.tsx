@@ -14,7 +14,7 @@ import { EditNoteContext } from '../../context/EditNoteContext';
 interface NoteProps{
     
     noteData: IResNoteEntryDto;
-    handleLoadTrigger: () => void;
+    handleLoadTrigger?: () => void;
 }
 
 export default function Note( { noteData, handleLoadTrigger }: NoteProps) {
@@ -36,11 +36,11 @@ export default function Note( { noteData, handleLoadTrigger }: NoteProps) {
     // hanler function
     function handleCloseDeleteModal() {
         setIsDeleteModalOpen(false);
-        handleLoadTrigger();
+        if (handleLoadTrigger) handleLoadTrigger();
     }
     function handleCloseEditModal() {
         setIsEditModalOpen(false);
-        handleLoadTrigger();
+        if (handleLoadTrigger) handleLoadTrigger();
     }
 
     function handleOpenDeleteModal() {
@@ -54,7 +54,7 @@ export default function Note( { noteData, handleLoadTrigger }: NoteProps) {
     // effect api call
     async function handleDeleteNote(id: number){
         await deleteNote(user_token, id);
-        handleLoadTrigger();
+        if (handleLoadTrigger) handleLoadTrigger();
         setIsDeleteModalOpen(false);
         use_navigate("/note",{replace:true});
     }

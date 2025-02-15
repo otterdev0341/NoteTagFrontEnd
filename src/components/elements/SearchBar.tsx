@@ -1,20 +1,18 @@
+import { IQueryDto } from "../../domain/QueryDto";
 import "./searchbar.css";
 
 interface SearchBarProps {
-    onSearch: (query: string) => void;
+    onSearch: <T extends keyof IQueryDto>(field: T, value: IQueryDto[T]) => void;
 }
 
-export default function SearchBar(props: SearchBarProps) {
+export default function SearchBar({onSearch}: SearchBarProps) {
 
-    function handleSearch(e: React.ChangeEvent<HTMLInputElement>){
-        props.onSearch(e.target.value);
-    }
 
     return (
         <div className="search-container">
             <form action="">
                 <div className="search-note-title">
-                    <input onInput={handleSearch} type="text" placeholder="Search Content" autoComplete="off" />
+                    <input onInput={(event) => onSearch("title",(event.target as HTMLInputElement).value)} type="text" placeholder="Search Content" autoComplete="off" />
                 </div>
                
             </form>

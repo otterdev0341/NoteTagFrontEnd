@@ -4,88 +4,108 @@ import "./search.css";
 import { IQueryDto } from "../../domain/QueryDto";
 import EachTag from "../elements/EachTag";
 import { MdRemoveCircle } from "react-icons/md";
-import { getUserTags } from "../../utility/getUserTags";
-import { getNoteListEntry } from "../../utility/getListNoteEntry";
 import Note from "../elements/Note";
 import EditNoteModal from "../elements/modals/EditNoteModal";
-import { IResNoteEntryDto } from "../../domain/NoteDto";
-import { EditNoteContext } from "../../context/EditNoteContext";
+import { INoteListDto, IResNoteEntryDto } from "../../domain/NoteDto";
+import { injectUserToken } from "../../utility/inject_cookies";
+import { fetchNotes } from "../../hooks/note";
+import { IUserTagListDto } from "../../domain/UserTagDto";
+import { fetchUserTag } from "../../hooks/user_tag";
 
 
 
 export default function Search() {
-    // demo data
-    const {totalNote, noteLists} = getNoteListEntry();
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedNote, setSelectedNote] = useState<IResNoteEntryDto>();
-    const {setUpdateNote} = useContext(EditNoteContext);
-        function handleDataUpdate(updatedNote: IResNoteEntryDto){
-            // update selected note with updateNote 
-            setSelectedNote(updatedNote);
+    
+    const user_token = injectUserToken();
+    // load all note of the user
+    const [notes, setNotes] = useState<INoteListDto>({
+        total: 0,
+        notes: [],
+    });
+    
+    const [loadNoteTrigger, setLoadNoteTrigger] = useState(0);
+    if (!user_token) {
+        throw new Error("Token not found");
+    }
+    useEffect(() => {
+            fetchNotes(user_token, setNotes, notes);
+            setLoadNoteTrigger(0);
+    }, [user_token,loadNoteTrigger]);
+
+    // fetch all tag from user
+    const [userTag, setUserTag] = useState<IUserTagListDto>({
+        totalTag : 0,
+        tagList: []
+    });
+    useEffect(() => {
+        fetchUserTag(user_token, setUserTag, userTag);
+    },[user_token]);
+
+    // initial citeria
+    const [queryCiteria, setQueryCiteria] = useState<IQueryDto>({
+        title: "",
+        detail: "",
+        noteTags: []
+    });
+    function setQueryCiteriaField<T extends keyof IQueryDto>(field: T, value: IQueryDto[T]) {
+        setQueryCiteria(prevNote => ({
+                ...prevNote,
+                [field]: value
+            }));
         }
-        function handleNoteClick(note : IResNoteEntryDto){
-            console.log(note);
-            setIsModalOpen(true);
-            setSelectedNote(note);
+    const [queryTag, setQueryTag] = useState<string[]>([]);
+    function appendQueryTag(tag: string){
+        if(queryTag.includes(tag)) return;
+        setQueryTag([...queryTag, tag]);
+        setQueryCiteria({
+            ...queryCiteria,
+            noteTags: [...(queryCiteria.noteTags || []), tag]
+        });
+        
+    }
+    function removeQueryTag(tag: string){
+        setQueryTag(queryTag.filter((query) => query !== tag));
+        setQueryCiteria({
+            ...queryCiteria,
+            noteTags: queryCiteria.noteTags?.filter((query) => query !== tag)
+        });
+        
+    }
+    // apply on citeria
+    useEffect(() => {
+        setQueryCiteriaField("noteTags", queryTag);
+    }, [queryTag]);
     
-            
-        };
     
-        function handleCloseModal(){
-            setIsModalOpen(false);
-            setSelectedNote({} as IResNoteEntryDto);
-        };
-       // use this to perform fetch api
-       const [queryCiteria, setQueryCiteria] = useState<IQueryDto>({
-           title: "",
-           detail: "",
-           noteTags: []
-       });
+    // Modal handle
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    function handleCloseModal(){
+        setIsModalOpen(false);
+        setSelectedNote({} as IResNoteEntryDto);
+    };
+    
+       
+    // handle update process
+    const [selectedNote, setSelectedNote] = useState<IResNoteEntryDto>();
+    
+        
+       
+       
+       
+       
    
-       useEffect(() => {
-           console.log(queryCiteria);
-       }, [queryCiteria]);
+    
    
-       // use this to represent ui,
-       const [queryTag, setQueryTag] = useState<string[]>([]);
-       // simulation all tag user has
-       const userFetchTag: string[] = getUserTags();
-   
-       function appendQueryTag(tag: string){
-            if(queryTag.includes(tag)) return;
-           setQueryTag([...queryTag, tag]);
-           setQueryCiteria({
-               ...queryCiteria,
-               noteTags: [...(queryCiteria.noteTags || []), tag]
-           });
-           
-       }
-       function removeQueryTag(tag: string){
-           setQueryTag(queryTag.filter((query) => query !== tag));
-           setQueryCiteria({
-               ...queryCiteria,
-               noteTags: queryCiteria.noteTags?.filter((query) => query !== tag)
-           });
-           
-       }
-   
-       // use this to hanle search bar
-       function handleSearch(query: string){
-           setQueryCiteria({
-               ...queryCiteria,
-               title: query
-           });
-           console.log(queryCiteria);
-       }
+
    
        return (
            <>
-           <SearchBar onSearch={handleSearch}/>
+           <SearchBar onSearch={setQueryCiteriaField}/>
            <div className="tags-container">
                <aside className="display-user-tags">
                    <ul className="tag-list">
                        {
-                           userFetchTag.map((tag, index) => (
+                           userTag.tagList.map((tag, index) => (
                                <li className="each-tag" key={index}>
                                    <EachTag tag={tag} onClick={() => appendQueryTag(tag)}/>
                                </li>
@@ -107,7 +127,7 @@ export default function Search() {
                    <div className="all-note">
                        {
                             // query citeria
-                            noteLists
+                            notes.notes
                             .filter(note => {
                                 // Check for matching title
                                 const titleMatch = note.title.toLowerCase().includes(queryCiteria.title?.toLowerCase() || "");
@@ -117,13 +137,13 @@ export default function Search() {
                                 
                                 // do it if tag != null
                                 const tagsMatch = queryCiteria.noteTags && queryCiteria.noteTags.length > 0 
-                                    ? queryCiteria.noteTags.every(tag => note.tag.includes(tag)) 
+                                    ? queryCiteria.noteTags.every(tag => note.noteTags.includes(tag)) 
                                     : true;
 
                                 return (titleMatch || contentMatch) && tagsMatch;
                             })
-                            .map((note, index) => (
-                                <Note key={note.id} noteData={note} onClick={() => handleNoteClick(note)} setUpdateContext={setUpdateNote} /> // Pass the `noteData` prop here
+                            .map((note) => (
+                                <Note noteData={note} handleLoadTrigger={() => setLoadNoteTrigger(prev => prev + 1)}    /> // Pass the `noteData` prop here
                             ))
                        }
                    </div>
@@ -132,7 +152,7 @@ export default function Search() {
            </div>
            {
                            isModalOpen && (
-                               <EditNoteModal isOpen={isModalOpen} noteData={selectedNote} onClose={handleCloseModal} />
+                               <EditNoteModal isOpen={isModalOpen} noteData={selectedNote} onClose={handleCloseModal}  />
                            )
                        }
            </>
