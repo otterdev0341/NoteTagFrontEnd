@@ -44,7 +44,7 @@ export class NoteService{
     };
 
     async update_note(the_note: IReqUpdateNoteDto)
-        : Promise<Result<IResNoteEntryDto, string>> 
+        : Promise<Result<string, string>> 
     {
         try {
             const response = await fetch(`${this.base_url}${this.feature_url}`, {
@@ -58,15 +58,15 @@ export class NoteService{
 
             if (!response.ok) {
                 // If the response is not OK, return Err with a meaningful error message
-                return ResultUtils.Err<IResNoteEntryDto, string>("Failed to update the note");
+                return ResultUtils.Err<string, string>("Failed to update the note");
             }
 
-            const result: IResNoteEntryDto = await response.json();
-            return ResultUtils.Ok<IResNoteEntryDto, string>(result);
+            const text = await response.text();
+            return ResultUtils.Ok<string, string>(text);
         } catch (error) {
-            console.error(error);
+            
             // If an error occurs, return Err with the error message
-            return ResultUtils.Err<IResNoteEntryDto, string>("An error occurred while updating the note");
+            return ResultUtils.Err<string, string>("An error occurred while updating the note");
         }
     };
 

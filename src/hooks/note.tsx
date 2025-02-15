@@ -55,7 +55,7 @@ export async function deleteNote(user_token: string, noteId: number): Promise<Re
 }
 
 
-export async function updateNote(oldNote:IResNoteEntryDto, user_token: string, newNote: IReqUpdateNoteDto): Promise<Result<string, string>> {
+export async function updateNote(user_token: string, newNote: IReqUpdateNoteDto): Promise<Result<string, string>> {
     try {
      
         const note_service = new NoteService(user_token);
