@@ -1,4 +1,4 @@
-import { INoteListDto, IReqCreateNoteDto, IResNoteEntryDto } from "../domain/NoteDto";
+import { INoteListDto, IReqCreateNoteDto, IReqUpdateNoteDto, IResNoteEntryDto } from "../domain/NoteDto";
 import { NoteService } from "../services/note";
 import { Result, ResultUtils } from "../types/Result";
 
@@ -53,3 +53,22 @@ export async function deleteNote(user_token: string, noteId: number): Promise<Re
         return ResultUtils.Err("Failed to delete note");
     }
 }
+
+
+export async function updateNote(oldNote:IResNoteEntryDto, user_token: string, newNote: IReqUpdateNoteDto): Promise<Result<string, string>> {
+    try {
+     
+        const note_service = new NoteService(user_token);
+        const response = await note_service.update_note(newNote);
+        if (response.ok) {
+            return ResultUtils.Ok("note updated");
+        } else {
+            return ResultUtils.Err("Failed to update note");
+        }
+    } catch (error) {
+        console.error("Error updating note:", error);
+        return ResultUtils.Err("Failed to update note");
+    }
+}
+
+

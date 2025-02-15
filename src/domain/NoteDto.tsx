@@ -25,7 +25,7 @@ export interface IResNoteEntryDto{
 }
 
 export interface IReqUpdateNoteDto{
-    id: string;
+    id: number;
     title?: string;
     content?: string;
     color?: string;

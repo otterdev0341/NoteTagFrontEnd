@@ -2,10 +2,8 @@ import Note from "./Note";
 import "./notelist.css";
 import { MdOutlinePushPin } from "react-icons/md";
 import { FaRegStickyNote } from "react-icons/fa";
-import {  INoteListDto, IResNoteEntryDto } from "../../domain/NoteDto";
-import { useContext, useEffect, useState } from "react";
-import EditNoteModal from "./modals/EditNoteModal";
-import { EditNoteContext } from "../../context/EditNoteContext";
+import {  INoteListDto } from "../../domain/NoteDto";
+import { useEffect, useState } from "react";
 import { fetchNotes } from "../../hooks/note";
 import { injectUserToken } from "../../utility/inject_cookies";
 
@@ -30,29 +28,6 @@ export default function NoteLists() {
         setLoadNoteTrigger(0);
     }, [user_token,loadNoteTrigger]);
     
-    
-    
-    // set note that selected to EditNoteContext
-    const {setUpdateNote} = useContext(EditNoteContext);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedNote, setSelectedNote] = useState<IResNoteEntryDto>();
-    function handleDataUpdate(updatedNote: IResNoteEntryDto){
-        // update selected note with updateNote 
-        setSelectedNote(updatedNote);
-    }
-    function handleNoteClick(note : IResNoteEntryDto){
-        
-        setIsModalOpen(true);
-        setSelectedNote(note);
-
-        
-    };
-
-    function handleCloseModal(){
-        setIsModalOpen(false);
-        setSelectedNote({} as IResNoteEntryDto);
-    };
-
    
 
     return (
@@ -62,7 +37,7 @@ export default function NoteLists() {
                     <MdOutlinePushPin />
                 </span>
                 {notes?.notes?.filter(note => note.status === "pin").map(note => (
-                    <Note key={note.id} noteData={note} onClick={() => handleNoteClick(note)} setUpdateContext={setUpdateNote} handleLoadTrigger={() => setLoadNoteTrigger(prev => prev + 1)} />
+                    <Note key={note.id} noteData={note} handleLoadTrigger={() => setLoadNoteTrigger(prev => prev + 1)} />
                 ))}
                 
                 
@@ -72,14 +47,10 @@ export default function NoteLists() {
                     <FaRegStickyNote />    
                 </span>
                 {notes?.notes?.filter(note => note.status === "unpin").map(note => (
-                    <Note key={note.id} noteData={note} onClick={() => handleNoteClick(note)} setUpdateContext={setUpdateNote} handleLoadTrigger={() => setLoadNoteTrigger(prev => prev + 1)} />
+                    <Note key={note.id} noteData={note}  handleLoadTrigger={() => setLoadNoteTrigger(prev => prev + 1)} />
                 ))}
             </div>
-            {
-                isModalOpen && (
-                    <EditNoteModal isOpen={isModalOpen} noteData={selectedNote} onClose={handleCloseModal} />
-                )
-            }
+            
             
             
         </div>

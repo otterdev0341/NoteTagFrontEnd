@@ -1,79 +1,86 @@
 import './note.css';
 import { CiEdit } from 'react-icons/ci';
 import { MdOutlineDeleteOutline } from "react-icons/md";
-import { IResNoteEntryDto } from '../../domain/NoteDto';
+import { IReqUpdateNoteDto, IResNoteEntryDto } from '../../domain/NoteDto';
 import { injectUserToken } from '../../utility/inject_cookies';
 import { deleteNote } from '../../hooks/note';
 import { useNavigate } from 'react-router-dom';
 import Modal from './modals/Modal';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import CustomButton, { ButtonType } from './Button';
+import EditNoteModal from './modals/EditNoteModal';
+import { EditNoteContext } from '../../context/EditNoteContext';
 
 interface NoteProps{
-    onClick: () => void;
+    
     noteData: IResNoteEntryDto;
-    setUpdateContext: (note: IResNoteEntryDto) => void;
     handleLoadTrigger: () => void;
 }
 
-export default function Note( { setUpdateContext,onClick ,noteData, handleLoadTrigger }: NoteProps) {
-    
-    const use_navigate = useNavigate();
-    const user_token = injectUserToken();
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    
-    function handleCloseModal() {
-        setIsModalOpen(false);
-        handleLoadTrigger();
-    }
-
-    function handleOpenModal() {
-        setIsModalOpen(true);
-    }
-    async function handleDeleteNote(id: number){
-        await deleteNote(user_token, id);
-        handleLoadTrigger();
-        setIsModalOpen(false);
-        use_navigate("/note",{replace:true});
-    }
-
-    
-
+export default function Note( { noteData, handleLoadTrigger }: NoteProps) {
     // Check if noteData is defined
     if (!noteData) {
         return <div>No note data available</div>;
     }
     
     const { id, title, content, colorCode, status, noteTags, createdAt } = noteData;
+    const { setUpdateNote} = useContext(EditNoteContext);
+    // utilize useNavigate
+    const use_navigate = useNavigate();
+    // inject token
+    const user_token = injectUserToken();
+    // set all state
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+    // hanler function
+    function handleCloseDeleteModal() {
+        setIsDeleteModalOpen(false);
+        handleLoadTrigger();
+    }
+    function handleCloseEditModal() {
+        setIsEditModalOpen(false);
+        handleLoadTrigger();
+    }
+
+    function handleOpenDeleteModal() {
+        setIsDeleteModalOpen(true);
+    }
+    function handleEditModalOpen() {
+        setIsEditModalOpen(true);
+        setUpdateNote(noteData);
+    }
+
+    // effect api call
+    async function handleDeleteNote(id: number){
+        await deleteNote(user_token, id);
+        handleLoadTrigger();
+        setIsDeleteModalOpen(false);
+        use_navigate("/note",{replace:true});
+    }
+
+    
+
+    
 
     
     
     return (
-        
-        
-
         <div className="note" id={id.toString()} style={{ backgroundColor: colorCode }}   >
             <div className='note-header'>
-                <h2 onClick={() => { setUpdateContext(noteData)
-                                     onClick()}}>
+                <h2 >
                     {title}
                 </h2>
                 <div className="note-action">
                     <a href="#" className='edit-btn' data-tooltip="Edit Note">
-                        <CiEdit onClick={() => {
-                            setUpdateContext(noteData)
-                            onClick()
-                            }} />
+                        <CiEdit onClick={() => handleEditModalOpen()} />
                     </a>
                     <a href="#" className='delete-btn'>
-                        <MdOutlineDeleteOutline onClick={() => handleOpenModal()} />
+                        <MdOutlineDeleteOutline onClick={() => handleOpenDeleteModal()} />
                     </a>
                 </div>
             </div>
-            <div className='note-conter' onClick={() => {
-                            setUpdateContext(noteData)
-                            onClick()
-                            }}>
+            <div className='note-conter' >
                 <p className='content-detail'>{content}</p>
             </div>
             <div className='note-footer'>
@@ -86,16 +93,26 @@ export default function Note( { setUpdateContext,onClick ,noteData, handleLoadTr
                     )
                 }
             </div>
-            
-            <Modal isOpen={isModalOpen} onClose={handleCloseModal} >
+            {
+                // edit note modal
+                isEditModalOpen && (
+                    <EditNoteModal isOpen={isEditModalOpen} noteData={noteData} onClose={handleCloseEditModal} trigger={handleLoadTrigger} />
+                )
+            }
+            {
+                // delete note modal
+                isDeleteModalOpen && 
+                (<Modal isOpen={isDeleteModalOpen} onClose={handleCloseDeleteModal} >
                 <div className='modal-area'>
                     <h4 className='modal-topic'>Delete note?</h4>
                     <div className='alert-action'>
                         <CustomButton button_type={ButtonType.Warning} text="delete" onClick={() => handleDeleteNote(id)} />
-                        <CustomButton button_type={ButtonType.Primary} text="cancel" onClick={handleCloseModal} />
+                        <CustomButton button_type={ButtonType.Primary} text="cancel" onClick={handleCloseDeleteModal} />
                     </div>
                 </div>
-            </Modal>
+                </Modal>)
+            }
+            
         </div>
         
     );
