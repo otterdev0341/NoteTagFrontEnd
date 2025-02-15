@@ -1,5 +1,5 @@
 
-import { ICreateNoteDto, INoteListDto, IReqUpdateNoteDto, IResNoteEntryDto } from "../domain/NoteDto";
+import { IReqCreateNoteDto, INoteListDto, IReqUpdateNoteDto, IResNoteEntryDto } from "../domain/NoteDto";
 import { Option } from "../types/Option";
 import { Result, ResultUtils } from "../types/Result";
 export class NoteService{
@@ -70,7 +70,7 @@ export class NoteService{
         }
     };
 
-    async create_note(the_note: ICreateNoteDto)
+    async create_note(the_note: IReqCreateNoteDto)
         : Promise<Result<IResNoteEntryDto, string>> 
     {
         try {
@@ -128,13 +128,14 @@ export class NoteService{
         : Promise<Result<null, string>> 
     {
         try {
-            const response = await fetch(`${this.base_url}${this.feature_url}${note_id}`, {
+            const response = await fetch(`${this.base_url}${this.feature_url}/${note_id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${this.user_token}`
                 }
             });
+            console.log(`url call = ${this.base_url}${this.feature_url}/${note_id}`);
             if (!response.ok) {
                 // If the response is not OK, return Err with a meaningful error message
                 return ResultUtils.Err<null, string>("Failed to delete the note");

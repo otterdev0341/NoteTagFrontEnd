@@ -38,3 +38,18 @@ export async function persistNewNote(user_token: string, newNote: IReqCreateNote
     }
 }
 
+
+export async function deleteNote(user_token: string, noteId: number): Promise<Result<string, string>> {
+    try {
+        const note_service = new NoteService(user_token);
+        const response = await note_service.delete_note(noteId);
+        if (response.ok) {
+            return ResultUtils.Ok("note deleted");
+        } else {
+            return ResultUtils.Err("Failed to delete note");
+        }
+    } catch (error) {
+        console.error("Error deleting note:", error);
+        return ResultUtils.Err("Failed to delete note");
+    }
+}

@@ -16,6 +16,8 @@ export default function NoteLists() {
         notes: [],
     });
     
+    const [loadNoteTrigger, setLoadNoteTrigger] = useState(0);
+
     const user_token = injectUserToken();
     if (!user_token) {
         throw new Error("Token not found");
@@ -24,16 +26,11 @@ export default function NoteLists() {
     
 
     useEffect(() => {
-        
         fetchNotes(user_token, setNotes, notes);
-    }, [user_token]);
+        setLoadNoteTrigger(0);
+    }, [user_token,loadNoteTrigger]);
     
     
-
-    useEffect(() => {
-
-        
-    }, [notes]);
     
     // set note that selected to EditNoteContext
     const {setUpdateNote} = useContext(EditNoteContext);
@@ -65,7 +62,7 @@ export default function NoteLists() {
                     <MdOutlinePushPin />
                 </span>
                 {notes?.notes?.filter(note => note.status === "pin").map(note => (
-                    <Note key={note.id} noteData={note} onClick={() => handleNoteClick(note)} setUpdateContext={setUpdateNote} />
+                    <Note key={note.id} noteData={note} onClick={() => handleNoteClick(note)} setUpdateContext={setUpdateNote} handleLoadTrigger={() => setLoadNoteTrigger(prev => prev + 1)} />
                 ))}
                 
                 
@@ -75,7 +72,7 @@ export default function NoteLists() {
                     <FaRegStickyNote />    
                 </span>
                 {notes?.notes?.filter(note => note.status === "unpin").map(note => (
-                    <Note key={note.id} noteData={note} onClick={() => handleNoteClick(note)} setUpdateContext={setUpdateNote} />
+                    <Note key={note.id} noteData={note} onClick={() => handleNoteClick(note)} setUpdateContext={setUpdateNote} handleLoadTrigger={() => setLoadNoteTrigger(prev => prev + 1)} />
                 ))}
             </div>
             {
