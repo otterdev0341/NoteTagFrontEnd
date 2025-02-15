@@ -1,5 +1,5 @@
 export interface IUserTagDto{
-    tag_name: string;
+    tagName: string;
 }
 
 export interface IUpdateUserTagDto {

@@ -135,7 +135,7 @@ export class NoteService{
                     'Authorization': `Bearer ${this.user_token}`
                 }
             });
-            console.log(`url call = ${this.base_url}${this.feature_url}/${note_id}`);
+            
             if (!response.ok) {
                 // If the response is not OK, return Err with a meaningful error message
                 return ResultUtils.Err<null, string>("Failed to delete the note");

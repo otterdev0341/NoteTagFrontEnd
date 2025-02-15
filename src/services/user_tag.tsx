@@ -1,4 +1,4 @@
-import { IUserTagDto } from "../domain/UserTagDto";
+import { IUpdateUserTagDto, IUserTagDto } from "../domain/UserTagDto";
 import { Result, ResultUtils } from "../types/Result";
 
 export class UserTagService{
@@ -56,10 +56,11 @@ export class UserTagService{
         }
     }
 
-    async update_user_tag(tag: IUserTagDto)
+    async update_user_tag(tag: IUpdateUserTagDto)
         : Promise<Result<null, string>>
     {
         try {
+            
             const response = await fetch(`${this.base_url}${this.feature_url}`, {
                 method: 'PUT',
                 headers: {
@@ -68,6 +69,7 @@ export class UserTagService{
                 },
                 body: JSON.stringify(tag)
             });
+            
             if (!response.ok) {
                 return ResultUtils.Err("Failed to update the tag");
             }
@@ -90,6 +92,7 @@ export class UserTagService{
                 },
                 body: JSON.stringify(tag)
             });
+            
             if (!response.ok) {
                 return ResultUtils.Err("Failed to delete the tag");
             }

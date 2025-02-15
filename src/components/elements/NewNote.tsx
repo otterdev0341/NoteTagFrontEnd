@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./newnote.css";
 import Modal from "./modals/Modal";
 import { IReqCreateNoteDto } from "../../domain/NoteDto";
@@ -7,15 +7,14 @@ import ColorPalatte from "./ColorPalatte";
 import { RiPushpinFill, RiUnpinFill } from "react-icons/ri";
 
 import { Tooltip } from "react-tooltip";
-import { getUserTags } from "../../utility/getUserTags";
 import EachTag from "./EachTag";
 import { FaCirclePlus } from "react-icons/fa6";
 import { isAlphanumeric, isNewNoteEmpty } from "../../utility/validateData";
 import { IUserTagListDto } from "../../domain/UserTagDto";
 import { injectUserToken } from "../../utility/inject_cookies";
 import { fetchUserTag } from "../../hooks/user_tag";
-import { fetchNotes, persistNewNote } from "../../hooks/note";
-import { Navigate, useNavigate } from "react-router-dom";
+import { persistNewNote } from "../../hooks/note";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -38,7 +37,7 @@ export default function NewNote() {
     });
     
     const [appendTag, setAppendTag] = useState<string[]>([]);
-    const [filterTag, setFilterTag] = useState<string[]>([]);
+    const [filterTag, _setFilterTag] = useState<string[]>([]);
     const [filterTagKeyword, setFilterTagKeyword] = useState<string>("");
 
     // USEE EFFECT DEFINITION AREA && inject hooks funtion
@@ -47,13 +46,11 @@ export default function NewNote() {
         throw new Error("Token not found");
     }
     useEffect(() => {
-        fetchUserTag(user_token, setUserTag, userTag);
+        fetchUserTag(user_token, setUserTag);
         setNoteField("noteTags", appendTag);
     },[user_token,appendTag.length]);
 
-    useEffect(() => {
-        console.log(newNote);
-    },[newNote]);
+    
     // handle new note update data
     function setNoteField<T extends keyof IReqCreateNoteDto>(field: T, value: IReqCreateNoteDto[T]) {
         setNewNote(prevNote => ({
@@ -70,7 +67,7 @@ export default function NewNote() {
         // call new note api here
         if(!isNewNoteEmpty(newNote)){
             try {
-                const result = await persistNewNote(user_token, newNote);
+                await persistNewNote(user_token, newNote);
                 use_navigate("/notes");
                     // this work but refresh th page
                     // window.location.href = "/notes"; 

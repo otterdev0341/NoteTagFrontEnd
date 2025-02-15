@@ -35,7 +35,8 @@ export enum ButtonType {
 interface ButtonProps {
     button_type: ButtonType;
     text: string;
-    onClick?: () => void;
+    onClick?: (() => void) | ((event: React.MouseEvent<HTMLButtonElement>) => void);
+    
 }
 
 export default function CustomButton(buttonProps: ButtonProps){

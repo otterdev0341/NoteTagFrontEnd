@@ -1,26 +1,73 @@
-import { useState } from "react";
-import { getUserTags } from "../../utility/getUserTags";
+import { useEffect, useState } from "react";
 import "./tagmanagement.css"
 import { FaDeleteLeft } from "react-icons/fa6";
 import { MdOutlineEdit } from "react-icons/md";
 import { Tooltip } from "react-tooltip";
 import Modal from "../elements/modals/Modal";
 import CustomButton, { ButtonType } from "../elements/Button";
+import { IUpdateUserTagDto, IUserTagDto, IUserTagListDto } from "../../domain/UserTagDto";
+import { injectUserToken } from "../../utility/inject_cookies";
+import { fetchUserTag } from "../../hooks/user_tag";
+import { UserTagService } from "../../services/user_tag";
 
 
 export default function TagManagement(){
+    const user_token = injectUserToken();
+    if (!user_token) {
+        throw new Error("Token not found");
+    }
+    //fetch user tag
+     const [userTag, setUserTag] = useState<IUserTagListDto>({
+            totalTag : 0,
+            tagList: []
+    });
+    const [trigger, setTrigger] = useState(0);
+    useEffect(() => {
+        fetchUserTag(user_token, setUserTag);
+        setTrigger(0);
+    },[user_token, trigger]);
+
     
     
-    const userFetchTag = getUserTags();
-    const [editTag, setEditTag] = useState<string>("");
-    const [newTagName, setNewTagName] = useState<string>("");
+    // modal handler
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-    function handleEditTag(tag: string){
-        setEditTag(tag);
+    
+    // handle tag operation
+    const [tagData, setTagData] = useState<IUpdateUserTagDto>({
+        oldTagName: "",
+        newTagName: ""
+    });
+
+    function setTagField<T extends keyof IUpdateUserTagDto>(field: T, value: IUpdateUserTagDto[T]) {
+        setTagData(prevNote => ({
+            ...prevNote,
+            [field]: value
+        }));
+    }
+    
+    async function performUpdate() {
         
+        const user_service = new UserTagService(user_token);
+        await user_service.update_user_tag(tagData);
+        setTrigger(prev => prev + 1);
+        setTagField("oldTagName", "");
+        setTagField("newTagName", "");
+        setIsEditModalOpen(false);
     }
 
+    const [deleteTag, setDeleteTag] = useState<IUserTagDto>({
+        tagName: ""
+    });
+    async function performDelete() {
+        const user_service = new UserTagService(user_token);
+        await user_service.delete_tag_from_user(deleteTag);
+        setDeleteTag({
+            tagName: ""
+        });
+        setTrigger(prev => prev + 1);
+        setIsDeleteModalOpen(false);
+    }
     
 
     return (
@@ -30,17 +77,17 @@ export default function TagManagement(){
             </div>
             <div className="user-tag-display">
                 {
-                    userFetchTag.map((tag, index) => (
+                    userTag.tagList.map((tag, index) => (
                         <div className="tag-item" key={index} >
                             <span>#{tag}</span>
                             <div className="tag-action">
                                 
                                 <MdOutlineEdit id="edit-action" data-tooltip-id="my-tooltip" data-tooltip-content="click to rename" 
-                                    onClick={() => { setIsEditModalOpen(true); handleEditTag(tag); }} 
+                                    onClick={() => { setIsEditModalOpen(true); setTagField("oldTagName",tag); }} 
                                     
                                     />
                                 <FaDeleteLeft id="delete-action" data-tooltip-id="my-tooltip" data-tooltip-content="click to delete tag" 
-                                    onClick={() => setIsDeleteModalOpen(true)} />
+                                    onClick={() => {setIsDeleteModalOpen(true); setDeleteTag({tagName: tag});}} />
                                 
                             </div>
                             <Tooltip id="my-tooltip" />
@@ -54,15 +101,28 @@ export default function TagManagement(){
                     <form action="" style={{marginTop: "20px"}}>
                         <div className="form-group">
                             <label htmlFor="old-tag-name">Old Tag Name</label>
-                            <input type="text" id="old-tag-name" value={editTag} readOnly />
+                            <input type="text" id="old-tag-name" value={tagData.oldTagName} readOnly />
                         </div>
                         <div className="form-group">
                             <label htmlFor="new-tag-name">New Tag Name</label>
-                            <input type="text" id="new-tag-name" autoComplete="off" value={newTagName} onChange={(event) => setNewTagName((event.target as HTMLInputElement).value)} />
+                            <input type="text" id="new-tag-name" autoComplete="off" value={tagData.newTagName} onChange={(event) => setTagField("newTagName",(event.target as HTMLInputElement).value)} />
                         </div>
                         <div className="edit-tag-action">
-                            <CustomButton button_type={ButtonType.Primary} text="Save" ></CustomButton>
-                            <CustomButton button_type={ButtonType.Danger} text="Cancel" onClick={() => setIsEditModalOpen(false)} ></CustomButton>
+                        <CustomButton
+                                button_type={ButtonType.Primary}
+                                text="Save"
+                                onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                                    event.preventDefault();
+                                    performUpdate();
+                                }}
+                            />
+                            <CustomButton 
+                                button_type={ButtonType.Danger} 
+                                text="Cancel" 
+                                onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                                    event.preventDefault();
+                                    setIsEditModalOpen(false)
+                                }} />
                             
                         </div>
                     </form>
@@ -79,7 +139,12 @@ export default function TagManagement(){
                     </p>
                 </div>
                 <div style={{display: "flex", justifyContent: "center", columnGap: "30px"}}>
-                    <CustomButton button_type={ButtonType.Primary} text="Yes" ></CustomButton>
+                    <CustomButton button_type={ButtonType.Primary} text="Yes" onClick={
+                        (event: React.MouseEvent<HTMLButtonElement>) => {
+                            event.preventDefault();
+                            performDelete();
+                        }
+                    } ></CustomButton>
                     <CustomButton button_type={ButtonType.Danger} text="No" onClick={() => setIsDeleteModalOpen(false)}></CustomButton>
                 </div>
             </Modal>
