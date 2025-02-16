@@ -81,13 +81,12 @@ export default function Landing() {
                     </ul>
                 </div>
                 <div className="dev-msg-section">
-                    <h4 className="dev-title">A Message from the Note List Dev Team</h4>
-                    <div className="dev-msg-preface">Dear Users</div>
-                    <div >Note List was built with a simple goal: to help you organize your thoughts and tasks effortlessly.</div>
-                    
-                    <div >Thank You for Being a Part of Our Journey!</div>
-                    <div>Stay organized, stay productive!</div>
-                    <div><em>The Note List Team</em></div>
+                    <h4>A Message from the Note List Dev Team</h4>
+                    <div>Dear Users</div>
+                    <div >Note List was built with a simple goal: to help you organize your thoughts and tasks effortlessly.
+                    Thank You for Being a Part of Our Journey!
+                    Stay organized, stay productive!
+                    <em>The Note List Team</em></div>
                 </div>
                 </div> {/* end content area */}
             </div>
