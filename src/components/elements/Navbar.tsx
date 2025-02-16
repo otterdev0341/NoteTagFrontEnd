@@ -3,10 +3,12 @@ import CustomButton from './Button';
 import { ButtonType } from './Button';
 
 import './navbar.css';
-import { use, useContext, useEffect } from 'react';
+import { use, useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import Cookies from 'js-cookie';
 import { log } from 'console';
+import { injectUserToken } from '../../utility/inject_cookies';
+import { AuthService } from '../../services/auth';
 
 
 export default function Navbar(){
@@ -15,17 +17,38 @@ export default function Navbar(){
     const {isUserLogIn, setEmpty} = useContext(AuthContext);
 
     const user_status = isUserLogIn();
-
+    const [username, setUsername] = useState<string>("");
+    useEffect(() => {
+        fetchUsername();
+    }, [user_status]);
     function logout(){
         Cookies.remove('token');
-        // Cookies.set('token', '');
-        // remove local storege
         localStorage.removeItem('token');
         setEmpty();
         setTimeout(() => {
             navigate('/login');
         }, 1000);
         
+    }
+
+    async function fetchUsername(){
+        if(user_status){
+           const user_token = injectUserToken();
+           try {
+            const auth_service = new AuthService();
+            const user = await auth_service.me(user_token); 
+            console.log(user);
+            if (user.ok) {
+                setUsername(user.value);
+            } else {
+                setUsername("");
+            }
+           } catch (error) {
+            console.log(error);
+           }
+        } else {
+            setUsername("");
+        }
     }
 
     return(
@@ -39,7 +62,10 @@ export default function Navbar(){
                         <li>
                             {
                                 user_status ? (
+                                    <>
+                                    <span style={{marginRight: "10px"}}>{username}</span>
                                     <NavLink to={'/note'}  >Notes</NavLink >
+                                    </>
                                 ) : (
                                     <NavLink to={'/'}  >Home</NavLink >
                                 )

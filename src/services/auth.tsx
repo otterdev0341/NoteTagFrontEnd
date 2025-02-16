@@ -79,8 +79,8 @@ export class AuthService{
                 if (!response.ok) {
                     return ResultUtils.Err(AuthError.InvalidCredentials);
                 }
-                const data = await response.json();
-                return ResultUtils.Ok(data.token as string);
+                const data = await response.text();
+                return ResultUtils.Ok(data);
             } catch (error) {
                 console.error(error);
                 return ResultUtils.Err(AuthError.UnknownError);
