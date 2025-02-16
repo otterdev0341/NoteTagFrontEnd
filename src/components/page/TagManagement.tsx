@@ -77,7 +77,10 @@ export default function TagManagement(){
             </div>
             <div className="user-tag-display">
                 {
-                    userTag.tagList.map((tag, index) => (
+                    userTag.tagList
+                    .slice()
+                    .sort((a, b) => a.localeCompare(b))
+                    .map((tag, index) => (
                         <div className="tag-item" key={index} >
                             <span>#{tag}</span>
                             <div className="tag-action">

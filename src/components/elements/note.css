@@ -2,15 +2,16 @@
     background-color: aqua;
     border-radius: 10px;
     padding: 10px 10px;
-    
-    min-height: 165px;
-    max-height: auto;
+    min-height: 150px;
+    height: fit-content;
+    min-width: 269px;
+    /* max-height: auto; */
 
-    overflow: hidden;
     
-    display: -webkit-box;
+    
+    /* display: -webkit-box;
     -webkit-line-clamp: 5; /* Works in WebKit browsers */
-    -webkit-box-orient: vertical;
+    /* -webkit-box-orient: vertical; */ 
     
     /* Fallback for unsupported browsers */
     display: flex;
@@ -39,13 +40,18 @@
 .note-footer {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    
-    
+    overflow: hidden;
+    padding: 5px 10px;
     column-gap: 5px;
-    /* background-color: red; */
-    height: 100%;
+    row-gap: 5px;
+    /* background-color: green; */
+    flex-wrap: wrap;
+    justify-self: flex-end;
+    
+    min-height: 15px;
+    max-height: 30px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     
     
 }
@@ -79,4 +85,23 @@
 .alert-action {
     display: flex;
     gap: 15px;
+}
+
+.note-content{
+    /* background-color: red; */
+    display: flex;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    min-height: 110px;
+    max-height: 200px;
+    
+    
+}
+
+.content-detail{
+    text-indent: 0rem;
+    text-overflow: ellipsis;
+    min-height: 100px;
+    max-height: 130px;
+    
 }

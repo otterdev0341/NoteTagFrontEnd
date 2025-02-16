@@ -38,7 +38,7 @@ export default function Search() {
         tagList: []
     });
     useEffect(() => {
-        fetchUserTag(user_token, setUserTag, userTag);
+        fetchUserTag(user_token, setUserTag);
     },[user_token]);
 
     // initial citeria
@@ -104,13 +104,16 @@ export default function Search() {
            <div className="tags-container">
                <aside className="display-user-tags">
                    <ul className="tag-list">
-                       {
-                           userTag.tagList.map((tag, index) => (
-                               <li className="each-tag" key={index}>
-                                   <EachTag tag={tag} onClick={() => appendQueryTag(tag)}/>
-                               </li>
-                           ))
-           }   
+                   {
+                        userTag.tagList
+                            .slice() // Create a shallow copy to avoid mutating the original array
+                            .sort((a, b) => a.localeCompare(b)) // Sort alphabetically
+                            .map((tag, index) => (
+                                <li className="each-tag" key={index}>
+                                    <EachTag tag={tag} onClick={() => appendQueryTag(tag)} />
+                                </li>
+                            ))
+                    } 
                    </ul>
                </aside>
                <div className="display-note-tags">

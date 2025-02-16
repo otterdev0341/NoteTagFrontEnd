@@ -86,7 +86,7 @@ export default function Note( { noteData, handleLoadTrigger }: NoteProps) {
                     </a>
                 </div>
             </div>
-            <div className='note-conter' >
+            <div className='note-content' >
                 <p className='content-detail'>{content}</p>
             </div>
             <div className='note-footer'>
