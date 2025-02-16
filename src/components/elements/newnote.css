@@ -190,3 +190,35 @@ input:active{
     color: yellow;
 }
 
+/* Mobile: Up to 767px */
+@media (max-width: 767px) {
+    .new-note-container {
+        width: 70vw;
+        height: 100vh;
+        
+    }
+    .pin-color-area {
+        margin-top: 20px;
+        flex-direction: row-reverse;
+        justify-content: center;
+        margin-left: 10px;
+        column-gap: 10px;
+    }
+
+    #new-note-form{
+        width: 100%;
+        background-color: red;
+    }
+    
+    #note-title {
+        display: block;
+        width: 262px;
+        padding: 0px 5px;
+    }
+    #note-content{
+        display: block;
+        width: 262px;
+        padding: 0px 5px;
+    }
+}
+

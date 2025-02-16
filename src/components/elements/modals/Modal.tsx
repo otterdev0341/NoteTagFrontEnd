@@ -14,7 +14,7 @@ let MODAL_STYLES: CSSProperties = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     backgroundColor: '#dadada',
-    padding: '50px',
+    padding: '60px',
     borderRadius: '10px',
     zIndex: 1000
 }
@@ -28,7 +28,12 @@ const OVERLAY_STYLES: CSSProperties = {
     backgroundColor: 'rgba(0, 0, 0, .7)',
     zIndex: 1000
 }
-
+// Responsive adjustments for small screens like iPhone SE
+const responsiveModalStyles: CSSProperties = {
+    padding: '5px', // Smaller padding on small screens
+    width: '95%', // Use more width on small screens
+    maxWidth: '320px', // Match iPhone SE width
+};
 const CLOSE_BTN_STYLES: CSSProperties = {
     position: 'absolute',
     top: 10,
@@ -39,13 +44,16 @@ const CLOSE_BTN_STYLES: CSSProperties = {
     textShadow: '1px 1px 3px white, -1px -1px 3px white', // White glow effect
     border: '2px solid white', // Thin white border
     padding: '2px', // Small padding for better visibility
-    borderRadius: '50%', // Optional: Makes it round like a button
+    borderRadius: '50%', // Makes it round
 }
 export default function Modal({ children, isOpen, onClose, setBackgroundColor}: ModalProps) {
     
+    const isMobile = window.innerWidth < 375;
+
     const modalStyles = {
         ...MODAL_STYLES,
-        backgroundColor: setBackgroundColor || MODAL_STYLES.backgroundColor
+        ...(isMobile && responsiveModalStyles), // Apply mobile-specific styles
+        backgroundColor: setBackgroundColor || MODAL_STYLES.backgroundColor,
     };
 
     const portalElement = document.getElementById('portal');

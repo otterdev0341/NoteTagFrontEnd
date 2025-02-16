@@ -1,10 +1,11 @@
-nav {
+.navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #f1f1f1;
     padding: 20px 20px;
     width: 100vw;
+    overflow: hidden;
 
     ul {
         display: flex;

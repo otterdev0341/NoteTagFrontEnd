@@ -165,9 +165,6 @@ export default function NewNote() {
         <Modal isOpen={isOpen} onClose={onClose} setBackgroundColor={newNote.color}>
             <div className="new-note-container">
                 <div className="pin-color-area">
-                    <div className="display-frame">
-                        
-                    </div>
                     <div className="display-pin-toggle">
                         <a className="pin-icon" onClick={setNoteStatusToggle}>
                             {
