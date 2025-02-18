@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext } from "react";
 import { IAuthContext } from "./schemas/auth_schema";
 
 

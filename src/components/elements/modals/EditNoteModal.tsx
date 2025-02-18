@@ -151,7 +151,7 @@ export default function EditNoteModal({trigger, noteData, isOpen, onClose }: Mod
             setNewBackgroundColor(updatedNote?.color || '');
         },[updatedNote.color]);
             useEffect(() => {
-                fetchUserTag(user_token, setUserTag, userTag);
+                fetchUserTag(user_token, setUserTag);
                 
             },[user_token]);
         const setNewBackgroundColor = (color: string) => {

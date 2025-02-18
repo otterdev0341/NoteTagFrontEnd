@@ -2,7 +2,7 @@ import { INoteListDto, IReqCreateNoteDto, IReqUpdateNoteDto, IResNoteEntryDto } 
 import { NoteService } from "../services/note";
 import { Result, ResultUtils } from "../types/Result";
 
-export async function fetchNotes(user_token: string, setNotes: React.Dispatch<React.SetStateAction<INoteListDto>>, notes: INoteListDto) {
+export async function fetchNotes(user_token: string, setNotes: React.Dispatch<React.SetStateAction<INoteListDto>>, _notes: INoteListDto) {
             try {
                 const note_service = new NoteService(user_token);
                 const response = await note_service.get_all_notes();

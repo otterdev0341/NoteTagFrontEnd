@@ -1,5 +1,5 @@
-import { useContext, useEffect, useMemo } from "react";
-import {  Navigate, Outlet, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import {  Navigate, Outlet } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 export default function PublicRoute() {

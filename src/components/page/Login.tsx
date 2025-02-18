@@ -2,11 +2,8 @@ import { useNavigate } from "react-router-dom";
 import "./login.css";
 import { ILoginUserData } from "../../domain/AuthDto";
 import { useContext, useState } from "react";
-import Cookies from 'js-cookie';
 import { isValidEmail, isValidPassword } from "../../utility/validateData";
 import { AuthContext } from "../../context/AuthContext";
-import { ResultUtils } from "../../types/Result";
-import { AuthError, AuthService } from "../../services/auth";
 
 
 

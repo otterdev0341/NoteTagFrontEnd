@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import {  Route, Routes } from "react-router-dom";
 import PublicRoute from "./PublicRoutes";
 import ProtectedRoute from "./ProtectedRoutes";
 import Landing from "../components/page/Landing";
@@ -8,13 +8,11 @@ import Login from "../components/page/Login";
 import Search from "../components/page/Search";
 import TagManagement from "../components/page/TagManagement";
 import NoteList from "../components/page/NoteList";
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+
 
 export default function RouteRegister() {
     
-    const {isUserLogIn} = useContext(AuthContext);
-    const user_status = isUserLogIn();
+    
 
     return (
         <Routes>

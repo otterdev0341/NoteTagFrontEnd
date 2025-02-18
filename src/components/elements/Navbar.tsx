@@ -3,10 +3,10 @@ import CustomButton from './Button';
 import { ButtonType } from './Button';
 
 import './navbar.css';
-import { use, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import Cookies from 'js-cookie';
-import { log } from 'console';
+
 import { injectUserToken } from '../../utility/inject_cookies';
 import { AuthService } from '../../services/auth';
 

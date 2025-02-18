@@ -3,18 +3,18 @@ import { IReqUpdateNoteDto, IResNoteEntryDto } from "../domain/NoteDto";
 
 export const EditNoteContext = React.createContext({
 
-    setUpdateNote: (note: IResNoteEntryDto) => {},
+    setUpdateNote: (_note: IResNoteEntryDto) => {},
 
     editNote: {} as IReqUpdateNoteDto,
 
-    updateNoteTitle: (title: string) => {},
+    updateNoteTitle: (_title: string) => {},
 
-    updateNoteContent: (content: string) => {},
+    updateNoteContent: (_content: string) => {},
 
     updateNoteStatus: () => {},
 
-    updateNoteColor: (color: string) => {},
+    updateNoteColor: (_color: string) => {},
 
-    updateNoteTags: (tags: string[]) => {}
+    updateNoteTags: (_tags: string[]) => {}
 
 });

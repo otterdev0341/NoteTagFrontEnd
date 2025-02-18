@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "../elements/SearchBar";
 import "./search.css";
 import { IQueryDto } from "../../domain/QueryDto";

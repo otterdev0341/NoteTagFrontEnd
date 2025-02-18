@@ -4,7 +4,7 @@ import { EditNoteContext } from "./EditNoteContext";
 
 export const EditNoteProvider = ({ children }: { children: React.ReactNode }) => {
     const [editNote, setEditNote] = useState<IReqUpdateNoteDto>({
-        id: "",
+        id: 0,
         title: "",
         content: "",
         status: "",
@@ -15,7 +15,7 @@ export const EditNoteProvider = ({ children }: { children: React.ReactNode }) =>
     const setUpdateNote = (note: IResNoteEntryDto) => {
         setEditNote((prevNote) => ({
             ...prevNote,
-            id: note.id.toString(),
+            id: note.id,
             title: note.title,
             content: note.content,
             status: note.status,

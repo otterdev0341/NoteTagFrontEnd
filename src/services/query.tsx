@@ -30,8 +30,8 @@ export class QueryService{
             }
             const data = await response.json();
             const result: INoteListDto = {
-                totalNote: data.totalNote as number,
-                noteLists: data.noteLists as IResNoteEntryDto[]
+                total: data.totalNote as number,
+                notes: data.noteLists as IResNoteEntryDto[]
             };
             return ResultUtils.Ok(result);
         } catch (error){
